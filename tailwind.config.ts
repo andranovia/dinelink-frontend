@@ -20,7 +20,11 @@ export default {
         border: "hsl(var(--sidebar-border))",
         ring: "hsl(var(--sidebar-ring))",
       },
+      backgroundColor: {
+        blackBase: "#3D3D3D",
+      },
       colors: {
+        blackBase: "#3D3D3D",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

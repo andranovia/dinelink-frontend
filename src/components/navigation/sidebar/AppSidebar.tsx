@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/navigation/Sidebar";
+import { Sidebar } from "@/components/navigation/sidebar/Sidebar";
 import React from "react";
 import AppSidebarFooter from "./AppSidebarFooter";
 import AppSidebarContent from "./AppSidebarContent";

@@ -2,14 +2,16 @@ import Image from "next/image";
 import {
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/navigation/Sidebar";
-import { AppSidebar } from "@/components/navigation/AppSidebar";
+} from "@/components/navigation/sidebar/Sidebar";
+import { AppSidebar } from "@/components/navigation/sidebar/AppSidebar";
+import AppNavigation from "@/components/navigation/header/AppNavigation";
 
 export default function Home() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="w-full">
+        <AppNavigation />
         <div className="">
           <SidebarTrigger className="rounded-r-full shadow-md mt-8" />
         </div>
@@ -26,7 +28,7 @@ export default function Home() {
             <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
               <li className="mb-2">
                 Get started by editing{" "}
-                <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
+                <code className="bg-blackBase/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
                   src/app/page.tsx
                 </code>
                 .

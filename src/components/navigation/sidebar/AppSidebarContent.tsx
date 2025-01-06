@@ -3,7 +3,6 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -15,7 +14,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "../ui/collapsible";
+} from "../../ui/collapsible";
 import { BsMenuButtonWide } from "react-icons/bs";
 import { IoCartOutline, IoFastFoodOutline } from "react-icons/io5";
 import { MdOutlineTableRestaurant } from "react-icons/md";
@@ -68,14 +67,13 @@ const AppSidebarContent = () => {
   return (
     <SidebarContent className="">
       <SidebarGroup className="px-0">
-        <SidebarGroupLabel className="mx-2">Menu</SidebarGroupLabel>
         <SidebarGroupContent className="mt-2">
           <SidebarMenu className=" px-4 gap-2">
             {mainItemsSidebar.map((item) => (
               <SidebarMenuItem
                 key={item.title}
-                className={`hover:bg-black rounded-lg hover:text-white transition-colors ${
-                  item.url === "#" && "bg-black text-white"
+                className={`hover:bg-blackBase rounded-lg p-1 hover:text-white transition-colors ${
+                  item.url === "#" && "bg-blackBase text-white"
                 }`}
               >
                 <SidebarMenuButton asChild>
@@ -95,12 +93,13 @@ const AppSidebarContent = () => {
               <React.Fragment key={index}>
                 <Collapsible defaultOpen className="group/collapsible">
                   <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuButton
-                        className={`hover:bg-black rounded-lg py-1.5 hover:text-white transition-colors ${
-                          item.title === "" && "bg-black text-white"
-                        }`}
-                      >
+                    <CollapsibleTrigger
+                      asChild
+                      className={`hover:bg-blackBase rounded-lg hover:text-white h-10 transition-colors ${
+                        item.title === "" && "bg-blackBase text-white"
+                      }`}
+                    >
+                      <SidebarMenuButton>
                         <item.icon />
                         <span className="text-sm font-medium">
                           {item.title}
@@ -126,8 +125,8 @@ const AppSidebarContent = () => {
                         {item.items.map((data, index) => (
                           <SidebarMenuSubItem
                             key={index}
-                            className={`hover:bg-black rounded-md py-1.5 px-3 hover:text-white transition-colors ${
-                              item.title === "#" && "bg-black text-white"
+                            className={`hover:bg-blackBase rounded-md py-2 px-3 hover:text-white transition-colors ${
+                              item.title === "#" && "bg-blackBase text-white"
                             } ${index === 0 ? `mt-2` : ``}`}
                           >
                             <Link href={data.url}>{data.title}</Link>

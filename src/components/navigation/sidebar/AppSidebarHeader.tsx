@@ -5,7 +5,7 @@ import { SidebarHeader } from "./Sidebar";
 const AppSidebarHeader = () => {
   return (
     <SidebarHeader className="flex  items-center gap-3 flex-row m-3 mb-0">
-      <div className="p-2 bg-black rounded-full w-10 h-10">
+      <div className="p-2 bg-blackBase rounded-full w-10 h-10">
         <Image
           src="/images/brand.png"
           alt="DineLink"

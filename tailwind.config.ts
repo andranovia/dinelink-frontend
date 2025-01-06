@@ -21,10 +21,10 @@ export default {
         ring: "hsl(var(--sidebar-ring))",
       },
       backgroundColor: {
-        blackBase: "#3D3D3D",
+        blackBase: "#0B192C",
       },
       colors: {
-        blackBase: "#3D3D3D",
+        blackBase: "#0B192C",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

@@ -14,9 +14,11 @@ const AppSidebarHeader = () => {
         />
       </div>
       <div className="flex flex-col gap-1">
-        <h3 className="text-lg font-semibold">DineLink</h3>
+        <h3 className="text-lg font-semibold text-blackBase">DineLink</h3>
 
-        <span className="text-xs text-gray-500">Dining Meets Technology</span>
+        <span className="text-xs text-blackBase opacity-60">
+          Dining Meets Technology
+        </span>
       </div>
     </SidebarHeader>
   );

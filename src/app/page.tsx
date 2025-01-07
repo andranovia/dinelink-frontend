@@ -1,8 +1,5 @@
 import Image from "next/image";
-import {
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/navigation/sidebar/Sidebar";
+import { SidebarProvider } from "@/components/navigation/sidebar/Sidebar";
 import { AppSidebar } from "@/components/navigation/sidebar/AppSidebar";
 import AppNavigation from "@/components/navigation/header/AppNavigation";
 
@@ -12,9 +9,7 @@ export default function Home() {
       <AppSidebar />
       <main className="w-full">
         <AppNavigation />
-        <div className="">
-          <SidebarTrigger className="rounded-r-full shadow-md mt-8" />
-        </div>
+
         <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
           <div className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
             <Image

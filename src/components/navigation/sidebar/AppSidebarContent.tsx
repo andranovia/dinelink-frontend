@@ -73,7 +73,7 @@ const AppSidebarContent = () => {
     <SidebarContent>
       <SidebarGroup className="p-2">
         <SidebarGroupContent className="mt-2">
-          <SidebarMenu className=" px-4 gap-2">
+          <SidebarMenu className=" px-2 gap-2">
             {mainItemsSidebar.map((item) => (
               <SidebarMenuItem
                 key={item.title}
@@ -93,7 +93,7 @@ const AppSidebarContent = () => {
             ))}
           </SidebarMenu>
           <hr className="border-black my-4  border-opacity-20" />
-          <SidebarMenu className="px-4 py-2">
+          <SidebarMenu className="px-2 py-2">
             {subItemsSidebar.map((item, index) => (
               <React.Fragment key={index}>
                 <Collapsible defaultOpen className="group/collapsible">

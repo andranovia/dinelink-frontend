@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { BsCalendarDate } from "react-icons/bs";
 
-const DateNavigation = () => {
+const DateHeader = () => {
   const currentDate = new Date();
   const formattedDate = `${currentDate.toLocaleString("en-US", {
     weekday: "long",
@@ -25,4 +25,4 @@ const DateNavigation = () => {
   );
 };
 
-export default DateNavigation;
+export default DateHeader;

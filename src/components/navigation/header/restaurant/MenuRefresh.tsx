@@ -5,7 +5,7 @@ import { IoRefreshCircle } from "react-icons/io5";
 const MenuRefresh = () => {
   return (
     <Button
-      className={`w-full items-center px-3 border  py-2 bg-white text-blackBase`}
+      className={`w-full items-center px-3 border  py-2 bg-white text-primary`}
       variant="ghost"
     >
       <IoRefreshCircle />

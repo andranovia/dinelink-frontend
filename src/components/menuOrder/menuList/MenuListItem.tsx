@@ -43,7 +43,7 @@ const MenuListItem = ({ className, ...props }: MenuListItemProps) => {
         </div>
       </CardContent>
       <CardFooter className="px-2 pb-3">
-        <Button className="w-full">
+        <Button className="w-full bg-primary">
           <BiPlus /> Add to Cart
         </Button>
       </CardFooter>

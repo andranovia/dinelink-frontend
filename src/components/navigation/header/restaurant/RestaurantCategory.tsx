@@ -13,8 +13,7 @@ const RestaurantCategory = ({ Categories }: RestaurantCategoryProps) => {
   return (
     <div className="flex items-center gap-2">
       <Button
-        className={`w-full items-center px-3 border  bg-blackBase text-white`}
-        variant="ghost"
+        className={`w-full items-center px-3 border  bg-primary text-white`}
       >
         <span className="font-medium text-sm">All</span>
         <div className="h-auto auto bg-slate-700 rounded-md px-1.5">
@@ -26,7 +25,7 @@ const RestaurantCategory = ({ Categories }: RestaurantCategoryProps) => {
         <Button
           key={index}
           className={`w-full items-center px-3 border `}
-          variant="ghost"
+          variant={"outline"}
         >
           <span className="font-medium text-sm">{category.name}</span>
           <div className="h-auto auto bg-slate-200 rounded-md px-1.5">

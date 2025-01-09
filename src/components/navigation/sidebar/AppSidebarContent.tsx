@@ -77,8 +77,9 @@ const AppSidebarContent = () => {
             {mainItemsSidebar.map((item) => (
               <SidebarMenuItem
                 key={item.title}
-                className={`hover:bg-blackBase rounded-lg p-1 hover:text-white text-blackBase transition-colors ${
-                  item.url === "#" && "bg-blackBase text-white"
+                className={` hover:bg-accent hover:text-primary rounded-lg p-1  text-primary transition-colors ${
+                  item.url === "#" &&
+                  "bg-primary text-white hover:bg-primary hover:text-white"
                 }`}
               >
                 <SidebarMenuButton asChild>
@@ -100,8 +101,8 @@ const AppSidebarContent = () => {
                   <SidebarMenuItem>
                     <CollapsibleTrigger
                       asChild
-                      className={`hover:bg-blackBase rounded-lg text-blackBase hover:text-white h-10 transition-colors ${
-                        item.title === "" && "bg-blackBase text-white"
+                      className={` hover:bg-accent hover:text-primary rounded-lg text-primary  h-10 transition-colors ${
+                        item.title === "" && "bg-primary text-white"
                       }`}
                     >
                       <SidebarMenuButton>
@@ -133,8 +134,8 @@ const AppSidebarContent = () => {
                           {item.items.map((data, index) => (
                             <SidebarMenuSubItem
                               key={index}
-                              className={`hover:bg-blackBase text-blackBase rounded-md py-2 px-3 hover:text-white transition-colors ${
-                                item.title === "#" && "bg-blackBase text-white"
+                              className={` hover:bg-accent hover:text-primary text-primary rounded-md py-2 px-3 transition-colors ${
+                                item.title === "#" && "bg-primary text-white"
                               } ${index === 0 ? `mt-2` : ``}`}
                             >
                               <Link href={data.url}>{data.title}</Link>

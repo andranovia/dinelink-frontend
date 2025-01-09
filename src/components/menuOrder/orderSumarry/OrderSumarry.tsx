@@ -8,13 +8,22 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
+import OrderMenuItem from "./OrderMenuItem";
 
 const OrderSumarry = () => {
   return (
-    <Card className="w-[35%] h-[calc(100vh-11rem)]">
+    <Card className="w-[35%] h-fit">
       <CardHeader>
         <CardTitle>Order Summary</CardTitle>
       </CardHeader>
+      <CardContent>
+        <div className="grid gap-4">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <OrderMenuItem key={index} />
+          ))}
+          <Separator />
+        </div>
+      </CardContent>
       <CardContent>
         <div className="grid gap-4">
           <div className="grid gap-2">
@@ -39,7 +48,7 @@ const OrderSumarry = () => {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">Confirm Payment</Button>
+        <Button className="w-full bg-primary">Confirm Payment</Button>
       </CardFooter>
     </Card>
   );

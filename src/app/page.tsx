@@ -9,11 +9,11 @@ export default function Home() {
     <SidebarProvider>
       <AppSidebar />
       <main className="w-full">
-        <AppHeader />
-        <div className="flex justify-center gap-3 p-3">
-          <MenuList />
-          <OrderSumarry />
-        </div>
+        <AppHeader>
+          <OrderSumarry>
+            <MenuList />
+          </OrderSumarry>
+        </AppHeader>
       </main>
     </SidebarProvider>
   );

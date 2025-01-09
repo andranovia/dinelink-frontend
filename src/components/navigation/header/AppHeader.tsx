@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "../sidebar/Sidebar";
 import RestaurantHeader from "./restaurant/RestaurantHeader";
 
-const AppHeader = () => {
+const AppHeader = ({ children }: { children: React.ReactNode }) => {
   return (
     <Header className="flex-col p-0 sm:gap-0 h-auto">
       <div className="flex items-center gap-3 sm:gap-4 w-full p-4">
@@ -22,7 +22,10 @@ const AppHeader = () => {
         </div>
       </div>
       <Separator orientation="horizontal" className="w-full " />
-      <RestaurantHeader />
+      <div className="w-full relative">
+        <RestaurantHeader />
+        {children}
+      </div>
       <Separator orientation="horizontal" className="w-full h-[0.7px]" />
     </Header>
   );

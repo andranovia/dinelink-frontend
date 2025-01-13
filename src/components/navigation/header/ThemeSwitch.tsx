@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,17 +9,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BsCheck, BsMoon, BsSun } from "react-icons/bs";
+import { useTheme } from "next-themes";
+import React from "react";
 
 export function ThemeSwitch() {
-  //   const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
-  /* Update theme-color meta tag
-   * when theme is updated */
-  //   useEffect(() => {
-  //     const themeColor = theme === "dark" ? "#020817" : "#fff";
-  //     const metaThemeColor = document.querySelector("meta[name='theme-color']");
-  //     if (metaThemeColor) metaThemeColor.setAttribute("content", themeColor);
-  //   }, [theme]);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <DropdownMenu modal={false}>
@@ -29,14 +32,14 @@ export function ThemeSwitch() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("light")}>
           Light <BsCheck size={14} className={cn("ml-auto")} />
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
           Dark
           <BsCheck size={14} className={cn("ml-auto")} />
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
           System
           <BsCheck size={14} className={cn("ml-auto")} />
         </DropdownMenuItem>

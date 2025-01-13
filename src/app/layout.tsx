@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
+import { SidebarProvider } from "@/components/navigation/sidebar/Sidebar";
+import { AppSidebar } from "@/components/navigation/sidebar/AppSidebar";
+import AppHeader from "@/components/navigation/header/AppHeader";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const montserratSans = Montserrat({
   subsets: ["latin"],
@@ -17,9 +21,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${montserratSans.className} antialiased`}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          storageKey="theme"
+          enableSystem
+        >
+          <SidebarProvider>
+            <AppSidebar />
+            <main className="w-full">
+              <AppHeader>{children}</AppHeader>
+            </main>
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

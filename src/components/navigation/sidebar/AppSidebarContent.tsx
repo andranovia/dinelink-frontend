@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   SidebarContent,
@@ -16,20 +18,21 @@ import {
   CollapsibleTrigger,
 } from "../../ui/collapsible";
 import { BiFoodMenu } from "react-icons/bi";
-import { PiHandWithdraw } from "react-icons/pi";
+import { PiCoins } from "react-icons/pi";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { MdOutlinePayment, MdOutlineTableRestaurant } from "react-icons/md";
+import { usePathname } from "next/navigation";
 
 const mainItemsSidebar = [
   {
     title: "Menu Order",
-    url: "#",
+    url: "/",
     icon: BiFoodMenu,
   },
   {
-    title: "Withdrawal",
-    url: "/withdrawals",
-    icon: PiHandWithdraw,
+    title: "Rewards",
+    url: "/rewards",
+    icon: PiCoins,
   },
 ];
 
@@ -69,6 +72,8 @@ const subItemsSidebar = [
 ];
 
 const AppSidebarContent = () => {
+  const pathname = usePathname();
+
   return (
     <SidebarContent>
       <SidebarGroup className="p-2">
@@ -78,7 +83,7 @@ const AppSidebarContent = () => {
               <SidebarMenuItem
                 key={item.title}
                 className={` hover:bg-accent hover:text-primary rounded-lg p-1  text-primary transition-colors ${
-                  item.url === "#" &&
+                  item.url === pathname &&
                   "bg-primary text-white hover:bg-primary hover:text-white"
                 }`}
               >
@@ -102,7 +107,7 @@ const AppSidebarContent = () => {
                     <CollapsibleTrigger
                       asChild
                       className={` hover:bg-accent hover:text-primary rounded-lg text-primary  h-10 transition-colors ${
-                        item.title === "" && "bg-primary text-white"
+                        item.title === "rewards" && "bg-primary text-white"
                       }`}
                     >
                       <SidebarMenuButton>

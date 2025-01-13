@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Header } from "../../ui/header";
 import { TopNavigation } from "./TopNavigation";
@@ -7,8 +9,11 @@ import DateHeader from "./DateHeader";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "../sidebar/Sidebar";
 import RestaurantHeader from "./restaurant/RestaurantHeader";
+import { usePathname } from "next/navigation";
 
 const AppHeader = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
+
   return (
     <Header className="flex-col p-0 sm:gap-0 h-auto">
       <div className="flex items-center gap-3 sm:gap-4 w-full p-4">
@@ -23,10 +28,13 @@ const AppHeader = ({ children }: { children: React.ReactNode }) => {
       </div>
       <Separator orientation="horizontal" className="w-full " />
       <div className="w-full relative">
-        <RestaurantHeader />
+        {pathname === "/" ? <RestaurantHeader /> : null}
+
         {children}
       </div>
-      <Separator orientation="horizontal" className="w-full h-[0.7px]" />
+      {pathname === "/" ? (
+        <Separator orientation="horizontal" className="w-full h-[0.7px]" />
+      ) : null}
     </Header>
   );
 };

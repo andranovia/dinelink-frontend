@@ -16,10 +16,10 @@ const RewardsExchange = () => {
         <CardDescription>All your rewards in one place.</CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-4 w-full">
-        <RewardsExchangeCard />
-        <RewardsExchangeCard />
-        <RewardsExchangeCard />
-        <RewardsExchangeCard />
+        <RewardsExchangeCard promoData={{ className: "bg-red-400" }} />
+        <RewardsExchangeCard promoData={{ className: "bg-blue-400" }} />
+        <RewardsExchangeCard promoData={{ className: "bg-green-400" }} />
+        <RewardsExchangeCard promoData={{ className: "bg-yellow-400" }} />
       </CardContent>
     </Card>
   );

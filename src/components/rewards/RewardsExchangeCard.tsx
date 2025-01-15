@@ -1,11 +1,30 @@
 import React from "react";
 import { PiMoneyWavy } from "react-icons/pi";
 import { BiCoinStack } from "react-icons/bi";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
-const RewardsExchangeCard = () => {
+type RewardsExchangeCardProps = {
+  promoData: {
+    className: string;
+  };
+};
+
+const RewardsExchangeCard = ({ promoData }: RewardsExchangeCardProps) => {
   return (
-    <div className="flex items-center overflow-hidden rounded-md w-[18rem]  h-[5rem] ">
-      <div className="w-[17%] h-[5rem] bg-blue-400 flex justify-center items-center p-3 relative">
+    <div className="flex items-center overflow-hidden rounded-md w-[18rem]  h-[5rem] shadow ">
+      <div
+        className={cn(
+          `w-[17%] h-[5rem]  flex justify-center items-center p-3 relative ${promoData.className}`
+        )}
+      >
+        <Image
+          src={"/images/discount.png"}
+          alt="Discount"
+          width={100}
+          height={100}
+          className="object-cover w-full h-full absolute object-left"
+        />
         <div className="w-1 h-1 bg-white p-2 rounded-full absolute right-9 top-[50px]"></div>
         <div className="w-1 h-1 bg-white p-2 rounded-full absolute right-9 top-[18px]"></div>
       </div>

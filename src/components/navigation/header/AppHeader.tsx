@@ -28,7 +28,9 @@ const AppHeader = ({ children }: { children: React.ReactNode }) => {
       </div>
       <Separator orientation="horizontal" className="w-full " />
       <div className="w-full relative">
-        {pathname === "/" ? <RestaurantHeader /> : null}
+        {pathname === "/" || pathname === "/order/history" ? (
+          <RestaurantHeader />
+        ) : null}
 
         {children}
       </div>

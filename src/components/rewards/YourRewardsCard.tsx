@@ -4,15 +4,15 @@ import { BiCoinStack } from "react-icons/bi";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-type RewardsExchangeCardProps = {
+type YourRewardsCardProps = {
   promoData: {
     className: string;
   };
 };
 
-const RewardsExchangeCard = ({ promoData }: RewardsExchangeCardProps) => {
+const YourRewardsCard = ({ promoData }: YourRewardsCardProps) => {
   return (
-    <div className="flex items-center overflow-hidden rounded-md w-[18rem]  h-[5rem] shadow ">
+    <div className="flex items-center overflow-hidden rounded-md w-[18rem]  h-[5rem] ">
       <div
         className={cn(
           `w-[17%] h-[5rem]  flex justify-center items-center p-3 relative ${promoData.className}`
@@ -31,7 +31,7 @@ const RewardsExchangeCard = ({ promoData }: RewardsExchangeCardProps) => {
       <div className="px-3 h-full bg-blue-50 flex flex-col gap-2 justify-center">
         <div className="w-full flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 p-1  rounded-md border-[0.5px] flex justify-center items-center bg-white">
+            <div className="w-8 h-8 p-1  rounded-md border-[0.5px] flex justify-center items-center bg-white  shadow">
               <PiMoneyWavy />
             </div>
             <span className="font-semibold">$15</span>
@@ -49,4 +49,4 @@ const RewardsExchangeCard = ({ promoData }: RewardsExchangeCardProps) => {
   );
 };
 
-export default RewardsExchangeCard;
+export default YourRewardsCard;

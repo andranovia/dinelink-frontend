@@ -43,11 +43,11 @@ const subItemsSidebar = [
     items: [
       {
         title: "Active Orders",
-        url: "/orders/active",
+        url: "/order/active",
       },
       {
         title: "Order History",
-        url: "/orders/history",
+        url: "/order/history",
       },
     ],
   },

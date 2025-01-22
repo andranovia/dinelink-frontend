@@ -10,9 +10,19 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "../sidebar/Sidebar";
 import RestaurantHeader from "./restaurant/RestaurantHeader";
 import { usePathname } from "next/navigation";
+import OrderHistoryHeader from "./orderHistory/OrderHistoryHeader";
 
 const AppHeader = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
+
+  const getHeaderData = () => {
+    switch (pathname) {
+      case "/":
+        return <RestaurantHeader />;
+      case "/order/history":
+        return <OrderHistoryHeader />;
+    }
+  };
 
   return (
     <Header className="flex-col p-0 sm:gap-0 h-auto">
@@ -28,9 +38,7 @@ const AppHeader = ({ children }: { children: React.ReactNode }) => {
       </div>
       <Separator orientation="horizontal" className="w-full " />
       <div className="w-full relative">
-        {pathname === "/" || pathname === "/order/history" ? (
-          <RestaurantHeader />
-        ) : null}
+        {getHeaderData()}
 
         {children}
       </div>

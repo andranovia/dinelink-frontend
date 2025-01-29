@@ -1,10 +1,8 @@
 import {
-  FiChevronDown,
   FiChevronLeft,
   FiChevronRight,
   FiChevronsLeft,
   FiChevronsRight,
-  FiChevronUp,
 } from "react-icons/fi";
 import { Table } from "@tanstack/react-table";
 
@@ -25,30 +23,6 @@ export function DataTablePagination<TData>({
       </div>
 
       <div className="flex items-center space-x-6 lg:space-x-8 text-muted-foreground">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
-          <p>{`${table.getState().pagination.pageSize}`}</p>
-          <div className="flex-col">
-            {/* Stop rows per page count if there is no more data */}
-            <FiChevronUp
-              onClick={() => {
-                if (table.getCanNextPage()) {
-                  if (table.getState().pagination.pageSize <= 1) {
-                    table.setPageSize(5);
-                  } else {
-                    table.setPageSize(table.getState().pagination.pageSize + 5);
-                  }
-                }
-              }}
-            ></FiChevronUp>
-            <FiChevronDown
-              onClick={() => {
-                table.setPageSize(table.getState().pagination.pageSize - 5);
-              }}
-            ></FiChevronDown>
-          </div>
-          {}
-        </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}

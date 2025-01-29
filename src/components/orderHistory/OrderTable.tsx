@@ -39,11 +39,16 @@ import { Input } from "../ui/input";
 import { DataTableFacetedFilter } from "../table-faceted-filter";
 import { getDropDownValues } from "@/lib/utils";
 import { DataTablePagination } from "../pagination-controls";
-import { Separator } from "../ui/separator";
 
 interface OrderTableProps {
   data: Employee[];
 }
+
+/**
+ * A table component for displaying a list of orders.
+ *
+ * @param data - The list of orders to display.
+ */
 
 export function OrderTable({ data }: OrderTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -93,19 +98,21 @@ export function OrderTable({ data }: OrderTableProps) {
       <div className="flex justify-between py-4 w-full">
         <div className="flex gap-3">
           <Input
-            placeholder="Filter by name"
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            placeholder="Filter by amount"
+            value={
+              (table.getColumn("amount")?.getFilterValue() as string) ?? ""
+            }
             onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
+              table.getColumn("amount")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
           <div className="flex-col">
-            {table.getColumn("location") && (
+            {table.getColumn("date") && (
               <DataTableFacetedFilter
-                column={table.getColumn("location")}
-                title="Location"
-                options={getDropDownValues(data, "location")}
+                column={table.getColumn("date")}
+                title="Date"
+                options={getDropDownValues(data, "date")}
               />
             )}
           </div>
@@ -192,7 +199,6 @@ export function OrderTable({ data }: OrderTableProps) {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className=""
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >

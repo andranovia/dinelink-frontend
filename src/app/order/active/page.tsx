@@ -1,0 +1,233 @@
+"use client";
+
+import OrderActiveCardItem from "@/components/orderActive/OrderActiveOrderItem";
+import { Button } from "@/components/ui/button";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import React from "react";
+
+const OrderActiveCardItems = () => {
+  return (
+    <Card className="shadow-none">
+      <CardHeader className="w-full">
+        <div className="flex flex-col gap-2">
+          <CardTitle className="flex flex-row items-center gap-4 text-lg">
+            Order Item
+          </CardTitle>
+          <CardDescription className="text-sm font-medium">
+            Every item you have ordered.
+          </CardDescription>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-4">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <OrderActiveCardItem key={index} />
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+const OrderSummary = () => {
+  return (
+    <Card className="w-full shadow-none">
+      <CardHeader>
+        <CardTitle className="flex flex-row items-center gap-4">
+          <h3>Order Summary</h3>
+          <Separator orientation="vertical" className="h-4" />
+          <div className="flex justify-center items-center gap-2">
+            <span className="py-1 p-2 rounded-md bg-yellow-100 text-yellow-500 text-sm font-medium">
+              Pending Payment
+            </span>
+          </div>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-4">
+          <div className="grid gap-2">
+            <div className="flex items-center justify-between">
+              <span>Subtotal</span>
+              <span>$99.00</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Shipping</span>
+              <span>$5.00</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Tax</span>
+              <span>$8.92</span>
+            </div>
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between font-bold">
+            <span>Total</span>
+            <span>$112.92</span>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="bg-indigo-50 bg-opacity-50 py-6 flex justify-between items-center">
+        <p className="font-medium text-sm text-gray-700">
+          Manage your order or finish your transaction.
+        </p>
+        <div className="flex justify-center items-center gap-2">
+          <Button variant={"outline"} className="border-primary text-primary">
+            Cancel Order
+          </Button>
+          <Button variant={"default"}>Finish Payment</Button>
+        </div>
+      </CardFooter>
+    </Card>
+  );
+};
+
+const page = () => {
+  const id = "334902445";
+
+  return (
+    <div className="p-3 grid grid-cols-5">
+      <div className="col-span-1 lg:col-span-3 flex flex-col">
+        <Card className=" shadow-none ">
+          <CardHeader className="flex justify-between flex-row items-center w-full">
+            <div className="flex flex-col gap-4">
+              <CardTitle className="flex flex-row items-center gap-4">
+                <span className="bg-yellow-400 w-2 h-2 rounded-full"></span>
+                <h2 className="text-2xl">Order ID: {id}</h2>
+              </CardTitle>
+              <CardDescription className="text-sm font-semibold">
+                8 January, 2022 - 12:00 PM
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-6">
+            <OrderActiveCardItems />
+            <Card>
+              <CardContent className="p-10">
+                <div className="h-[20rem] w-full overflow-hidden border rounded-xl bg-white">
+                  <TransformWrapper
+                    initialScale={1}
+                    initialPositionX={0}
+                    initialPositionY={0}
+                    limitToBounds={false}
+                  >
+                    {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                      <>
+                        {/* <div className="tools bg-white">
+                          <button
+                            onClick={() => zoomIn()}
+                            className="mr-2 p-2 bg-blue-500 text-white rounded"
+                          >
+                            Zoom In
+                          </button>
+                          <button
+                            onClick={() => zoomOut()}
+                            className="mr-2 p-2 bg-blue-500 text-white rounded"
+                          >
+                            Zoom Out
+                          </button>
+                          <button
+                            onClick={() => resetTransform()}
+                            className="p-2 bg-blue-500 text-white rounded"
+                          >
+                            Reset
+                          </button>
+                        </div> */}
+                        <TransformComponent wrapperClass="bg-white">
+                          <div
+                            style={{ width: "740px", height: "100%" }}
+                            className="grid grid-cols-4 gap-4 gap-y-20"
+                          >
+                            {Array.from({ length: 10 }).map((_, index) => (
+                              <div
+                                key={index}
+                                className={`relative w-32 h-32 ${
+                                  index === 7 ? "bg-primary" : "bg-gray-200"
+                                }  rounded-lg border cursor-pointer`}
+                              >
+                                <div
+                                  className={`absolute inset-x-0 -bottom-5 flex justify-center space-x-2`}
+                                >
+                                  <div
+                                    className={`w-1/2 h-4  ${
+                                      index === 7 ? "bg-primary" : "bg-gray-200"
+                                    } border rounded-md`}
+                                  ></div>
+                                  <div
+                                    className={`w-1/2 h-4  ${
+                                      index === 7 ? "bg-primary" : "bg-gray-200"
+                                    } border rounded-md`}
+                                  ></div>
+                                </div>
+                                <div
+                                  className={`absolute inset-x-0 -top-5 flex justify-center space-x-2`}
+                                >
+                                  <div
+                                    className={`w-1/2 h-4   ${
+                                      index === 7 ? "bg-primary" : "bg-gray-200"
+                                    } border rounded-md`}
+                                  ></div>
+                                  <div
+                                    className={`w-1/2 h-4   ${
+                                      index === 7 ? "bg-primary" : "bg-gray-200"
+                                    } border rounded-md`}
+                                  ></div>
+                                </div>
+                                <div
+                                  className={`absolute h-32 inset-x-0 -left-5 flex justify-center flex-col space-y-2`}
+                                >
+                                  <div
+                                    className={`w-4 h-1/2   ${
+                                      index === 7 ? "bg-primary" : "bg-gray-200"
+                                    } border rounded-md`}
+                                  ></div>
+                                  <div
+                                    className={`w-4 h-1/2   ${
+                                      index === 7 ? "bg-primary" : "bg-gray-200"
+                                    } border rounded-md`}
+                                  ></div>
+                                </div>
+                                <div
+                                  className={`absolute h-32 inset-x-0 -right-10 flex justify-center ml-5 items-end w-full flex-col space-y-2`}
+                                >
+                                  <div
+                                    className={`w-4 h-1/2   ${
+                                      index === 7 ? "bg-primary" : "bg-gray-200"
+                                    } border rounded-md`}
+                                  ></div>
+                                  <div
+                                    className={`w-4 h-1/2   ${
+                                      index === 7 ? "bg-primary" : "bg-gray-200"
+                                    } border rounded-md`}
+                                  ></div>
+                                </div>
+                                <div className="flex items-center justify-center h-full text-white font-bold">
+                                  {index}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </TransformComponent>
+                      </>
+                    )}
+                  </TransformWrapper>
+                </div>
+              </CardContent>
+            </Card>
+            <OrderSummary />
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default page;

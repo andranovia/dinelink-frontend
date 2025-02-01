@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
+import { BiMinus, BiPlus, BiReset } from "react-icons/bi";
 
 const OrderActiveCardItems = () => {
   return (
@@ -77,13 +78,158 @@ const OrderSummary = () => {
       </CardContent>
       <CardFooter className="bg-indigo-50 bg-opacity-50 py-6 flex justify-between items-center">
         <p className="font-medium text-sm text-gray-700">
-          Manage your order or finish your transaction.
+          Manage your order or finish your transaction
         </p>
         <div className="flex justify-center items-center gap-2">
           <Button variant={"outline"} className="border-primary text-primary">
             Cancel Order
           </Button>
           <Button variant={"default"}>Finish Payment</Button>
+        </div>
+      </CardFooter>
+    </Card>
+  );
+};
+
+const CurrentTableOrder = () => {
+  return (
+    <Card>
+      <CardHeader className="w-full">
+        <div className="flex flex-col gap-2">
+          <CardTitle className="flex flex-row items-center gap-4 text-lg">
+            Order Item
+          </CardTitle>
+          <CardDescription className="text-sm font-medium">
+            Every item you have ordered.
+          </CardDescription>
+        </div>
+      </CardHeader>
+      <CardContent className="px-10 my-4">
+        <div className="h-[24rem] w-full relative overflow-hidden border rounded-xl bg-slate-100">
+          <div className="flex  bg-primary z-20 relative items-center gap-2 w-full p-4">
+            <span className="rounded-md text-white text-sm font-medium">
+              Table Number:
+            </span>
+            <span className=" p-1 px-2 rounded-md bg-white text-primary text-sm font-medium">
+              7
+            </span>
+          </div>
+          <TransformWrapper
+            initialScale={0.8}
+            initialPositionX={0}
+            initialPositionY={0}
+            limitToBounds={false}
+          >
+            {({ zoomIn, zoomOut, resetTransform }) => (
+              <>
+                <div className="tools p-3  flex justify-between w-full items-end bottom-0 absolute z-40">
+                  <button
+                    onClick={() => resetTransform()}
+                    className="mr-2 p-2 bg-white border text-primary rounded"
+                  >
+                    <BiReset />
+                  </button>
+                  <div className="flex items-center gap-2 flex-col">
+                    <button
+                      onClick={() => zoomIn()}
+                      className="mr-2 p-2 bg-white border text-primary rounded"
+                    >
+                      <BiPlus />
+                    </button>
+                    <button
+                      onClick={() => zoomOut()}
+                      className="mr-2 p-2 bg-white border text-primary rounded"
+                    >
+                      <BiMinus />
+                    </button>
+                  </div>
+                </div>
+                <TransformComponent wrapperClass="bg-white">
+                  <div
+                    style={{ width: "740px", height: "100%" }}
+                    className="grid grid-cols-4 gap-4 gap-y-20 "
+                  >
+                    {Array.from({ length: 10 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className={`relative w-32 h-32 ${
+                          index === 7 ? "bg-primary" : "bg-gray-200"
+                        }  rounded-lg border cursor-pointer`}
+                      >
+                        <div
+                          className={`absolute inset-x-0 -bottom-5 flex justify-center space-x-2`}
+                        >
+                          <div
+                            className={`w-1/2 h-4  ${
+                              index === 7 ? "bg-primary" : "bg-gray-200"
+                            } border rounded-md`}
+                          ></div>
+                          <div
+                            className={`w-1/2 h-4  ${
+                              index === 7 ? "bg-primary" : "bg-gray-200"
+                            } border rounded-md`}
+                          ></div>
+                        </div>
+                        <div
+                          className={`absolute inset-x-0 -top-5 flex justify-center space-x-2`}
+                        >
+                          <div
+                            className={`w-1/2 h-4   ${
+                              index === 7 ? "bg-primary" : "bg-gray-200"
+                            } border rounded-md`}
+                          ></div>
+                          <div
+                            className={`w-1/2 h-4   ${
+                              index === 7 ? "bg-primary" : "bg-gray-200"
+                            } border rounded-md`}
+                          ></div>
+                        </div>
+                        <div
+                          className={`absolute h-32 inset-x-0 -left-5 flex justify-center flex-col space-y-2`}
+                        >
+                          <div
+                            className={`w-4 h-1/2   ${
+                              index === 7 ? "bg-primary" : "bg-gray-200"
+                            } border rounded-md`}
+                          ></div>
+                          <div
+                            className={`w-4 h-1/2   ${
+                              index === 7 ? "bg-primary" : "bg-gray-200"
+                            } border rounded-md`}
+                          ></div>
+                        </div>
+                        <div
+                          className={`absolute h-32 inset-x-0 -right-10 flex justify-center ml-5 items-end w-full flex-col space-y-2`}
+                        >
+                          <div
+                            className={`w-4 h-1/2   ${
+                              index === 7 ? "bg-primary" : "bg-gray-200"
+                            } border rounded-md`}
+                          ></div>
+                          <div
+                            className={`w-4 h-1/2   ${
+                              index === 7 ? "bg-primary" : "bg-gray-200"
+                            } border rounded-md`}
+                          ></div>
+                        </div>
+                        <div className="flex items-center justify-center h-full text-white font-bold">
+                          {index}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </TransformComponent>
+              </>
+            )}
+          </TransformWrapper>
+        </div>
+      </CardContent>
+      <CardFooter className="bg-indigo-50 bg-opacity-50 py-6 flex justify-between items-center">
+        <p className="font-medium text-sm text-gray-700">
+          Change or edit your table
+        </p>
+        <div className="flex justify-center items-center gap-2">
+          <Button variant={"default"}>Manage Table </Button>
         </div>
       </CardFooter>
     </Card>
@@ -110,118 +256,7 @@ const page = () => {
           </CardHeader>
           <CardContent className="flex flex-col gap-6">
             <OrderActiveCardItems />
-            <Card>
-              <CardContent className="p-10">
-                <div className="h-[20rem] w-full overflow-hidden border rounded-xl bg-white">
-                  <TransformWrapper
-                    initialScale={1}
-                    initialPositionX={0}
-                    initialPositionY={0}
-                    limitToBounds={false}
-                  >
-                    {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-                      <>
-                        {/* <div className="tools bg-white">
-                          <button
-                            onClick={() => zoomIn()}
-                            className="mr-2 p-2 bg-blue-500 text-white rounded"
-                          >
-                            Zoom In
-                          </button>
-                          <button
-                            onClick={() => zoomOut()}
-                            className="mr-2 p-2 bg-blue-500 text-white rounded"
-                          >
-                            Zoom Out
-                          </button>
-                          <button
-                            onClick={() => resetTransform()}
-                            className="p-2 bg-blue-500 text-white rounded"
-                          >
-                            Reset
-                          </button>
-                        </div> */}
-                        <TransformComponent wrapperClass="bg-white">
-                          <div
-                            style={{ width: "740px", height: "100%" }}
-                            className="grid grid-cols-4 gap-4 gap-y-20"
-                          >
-                            {Array.from({ length: 10 }).map((_, index) => (
-                              <div
-                                key={index}
-                                className={`relative w-32 h-32 ${
-                                  index === 7 ? "bg-primary" : "bg-gray-200"
-                                }  rounded-lg border cursor-pointer`}
-                              >
-                                <div
-                                  className={`absolute inset-x-0 -bottom-5 flex justify-center space-x-2`}
-                                >
-                                  <div
-                                    className={`w-1/2 h-4  ${
-                                      index === 7 ? "bg-primary" : "bg-gray-200"
-                                    } border rounded-md`}
-                                  ></div>
-                                  <div
-                                    className={`w-1/2 h-4  ${
-                                      index === 7 ? "bg-primary" : "bg-gray-200"
-                                    } border rounded-md`}
-                                  ></div>
-                                </div>
-                                <div
-                                  className={`absolute inset-x-0 -top-5 flex justify-center space-x-2`}
-                                >
-                                  <div
-                                    className={`w-1/2 h-4   ${
-                                      index === 7 ? "bg-primary" : "bg-gray-200"
-                                    } border rounded-md`}
-                                  ></div>
-                                  <div
-                                    className={`w-1/2 h-4   ${
-                                      index === 7 ? "bg-primary" : "bg-gray-200"
-                                    } border rounded-md`}
-                                  ></div>
-                                </div>
-                                <div
-                                  className={`absolute h-32 inset-x-0 -left-5 flex justify-center flex-col space-y-2`}
-                                >
-                                  <div
-                                    className={`w-4 h-1/2   ${
-                                      index === 7 ? "bg-primary" : "bg-gray-200"
-                                    } border rounded-md`}
-                                  ></div>
-                                  <div
-                                    className={`w-4 h-1/2   ${
-                                      index === 7 ? "bg-primary" : "bg-gray-200"
-                                    } border rounded-md`}
-                                  ></div>
-                                </div>
-                                <div
-                                  className={`absolute h-32 inset-x-0 -right-10 flex justify-center ml-5 items-end w-full flex-col space-y-2`}
-                                >
-                                  <div
-                                    className={`w-4 h-1/2   ${
-                                      index === 7 ? "bg-primary" : "bg-gray-200"
-                                    } border rounded-md`}
-                                  ></div>
-                                  <div
-                                    className={`w-4 h-1/2   ${
-                                      index === 7 ? "bg-primary" : "bg-gray-200"
-                                    } border rounded-md`}
-                                  ></div>
-                                </div>
-                                <div className="flex items-center justify-center h-full text-white font-bold">
-                                  {index}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </TransformComponent>
-                      </>
-                    )}
-                  </TransformWrapper>
-                </div>
-              </CardContent>
-            </Card>
+            <CurrentTableOrder />
             <OrderSummary />
           </CardContent>
         </Card>

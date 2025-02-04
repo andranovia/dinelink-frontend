@@ -14,7 +14,40 @@ import {
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 import { BiMinus, BiPlus, BiReset } from "react-icons/bi";
+import Image from "next/image";
+import MapDefault from "@/components/map";
 
+const page = () => {
+  const id = "334902445";
+
+  return (
+    <div className="p-3 grid grid-cols-6 gap-3">
+      <div className="col-span-1 lg:col-span-4 flex flex-col">
+        <Card className=" shadow-none ">
+          <CardHeader className="flex justify-between flex-row items-center w-full">
+            <div className="flex flex-col gap-4">
+              <CardTitle className="flex flex-row items-center gap-4">
+                <span className="bg-yellow-400 w-2 h-2 rounded-full"></span>
+                <h2 className="text-2xl">Order ID: {id}</h2>
+              </CardTitle>
+              <CardDescription className="text-sm font-semibold">
+                8 January, 2022 - 12:00 PM
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-6">
+            <OrderActiveCardItems />
+            <CurrentTableOrder />
+            <OrderSummary />
+          </CardContent>
+        </Card>
+      </div>
+      <RestaurantDetails />
+    </div>
+  );
+};
+
+export default page;
 const OrderActiveCardItems = () => {
   return (
     <Card className="shadow-none">
@@ -97,10 +130,10 @@ const CurrentTableOrder = () => {
       <CardHeader className="w-full">
         <div className="flex flex-col gap-2">
           <CardTitle className="flex flex-row items-center gap-4 text-lg">
-            Order Item
+            Current Table
           </CardTitle>
           <CardDescription className="text-sm font-medium">
-            Every item you have ordered.
+            Your booked table and its status.
           </CardDescription>
         </div>
       </CardHeader>
@@ -236,33 +269,65 @@ const CurrentTableOrder = () => {
   );
 };
 
-const page = () => {
-  const id = "334902445";
-
+const RestaurantDetails = () => {
   return (
-    <div className="p-3 grid grid-cols-5">
-      <div className="col-span-1 lg:col-span-3 flex flex-col">
-        <Card className=" shadow-none ">
-          <CardHeader className="flex justify-between flex-row items-center w-full">
-            <div className="flex flex-col gap-4">
-              <CardTitle className="flex flex-row items-center gap-4">
-                <span className="bg-yellow-400 w-2 h-2 rounded-full"></span>
-                <h2 className="text-2xl">Order ID: {id}</h2>
-              </CardTitle>
-              <CardDescription className="text-sm font-semibold">
-                8 January, 2022 - 12:00 PM
-              </CardDescription>
+    <div className="col-span-1 lg:col-span-2 relative h-full">
+      <Card className="w-full shadow-none sticky top-3">
+        <CardHeader className="flex flex-col gap-2 ">
+          <CardTitle className="flex flex-row items-center">
+            <h3 className="text-xl">Restaurant Details</h3>
+          </CardTitle>
+          <Image
+            src="/images/restaurant.jpg"
+            width={800}
+            height={800}
+            alt=""
+            className="w-full rounded-lg h-[12rem]"
+          />
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <div className="flex items-center justify-between font-semibold text-[16px]">
+                <span>Main Info</span>
+              </div>
+              <Separator />
+              <div className="flex items-center justify-between">
+                <span className="text-gray-700">Name</span>
+                <span className="text-black font-medium">Bangor Sokab</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-700">Rating</span>
+                <span className="text-black font-medium">$5.00</span>
+              </div>
+              <div className="flex items-center justify-between font-semibold text-[16px] mt-4">
+                <span>Location</span>
+              </div>
+              <Separator />
+              <div className="flex items-center justify-between text-sm">
+                <span>Adress</span>
+                <span className="text-black font-medium ">
+                  Jl. Mampang Prapatan IX No. 1
+                </span>
+              </div>
+              <div className="w-full mt-2 flex flex-col gap-4">
+                <MapDefault />
+                <div className="flex justify-center items-center gap-2 w-full">
+                  <Button
+                    variant={"outline"}
+                    className="border-primary text-primary"
+                  >
+                    Copy Address
+                  </Button>
+                  <Button variant={"default"} className="w-full">
+                    Get Direction
+                  </Button>
+                </div>
+              </div>
             </div>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-6">
-            <OrderActiveCardItems />
-            <CurrentTableOrder />
-            <OrderSummary />
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
-
-export default page;

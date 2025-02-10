@@ -1,14 +1,15 @@
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer } from "react-leaflet";
 import React from "react";
+import { cn } from "@/lib/utils";
 
-const MapDefault = () => {
+const MapDefault = ({ className }: { className: string }) => {
   return (
     <MapContainer
       center={[51.505, -0.09]}
       zoom={13}
       scrollWheelZoom={true}
-      className="w-[100%] h-[10rem] rounded-md relative z-10"
+      className={cn("w-[100%] h-[10rem] rounded-md relative z-10", className)}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

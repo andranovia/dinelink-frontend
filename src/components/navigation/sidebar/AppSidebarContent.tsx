@@ -38,6 +38,20 @@ const mainItemsSidebar = [
 
 const subItemsSidebar = [
   {
+    title: "Restaurant Info",
+    icon: IoFastFoodOutline,
+    items: [
+      {
+        title: "About",
+        url: "/restaurant/about",
+      },
+      {
+        title: "Reviews",
+        url: "/restaurant/reviews",
+      },
+    ],
+  },
+  {
     title: "Manage Orders",
     icon: MdOutlineTableRestaurant,
     items: [
@@ -51,20 +65,7 @@ const subItemsSidebar = [
       },
     ],
   },
-  {
-    title: "All Menu",
-    icon: IoFastFoodOutline,
-    items: [
-      {
-        title: "Menu Items",
-        url: "/menu",
-      },
-      {
-        title: "Categories",
-        url: "/categories",
-      },
-    ],
-  },
+
   {
     title: "Manage Payment",
     icon: MdOutlinePayment,

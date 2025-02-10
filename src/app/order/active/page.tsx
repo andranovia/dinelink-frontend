@@ -275,7 +275,7 @@ const RestaurantDetails = () => {
       <Card className="w-full shadow-none sticky top-3">
         <CardHeader className="flex flex-col gap-2 ">
           <CardTitle className="flex flex-row items-center">
-            <h3 className="text-xl">Restaurant Details</h3>
+            <h3 className="text-[18px]">Restaurant Details</h3>
           </CardTitle>
           <Image
             src="/images/restaurant.jpg"

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider } from "@/components/navigation/sidebar/Sidebar";
 import { AppSidebar } from "@/components/navigation/sidebar/AppSidebar";
 import AppHeader from "@/components/navigation/header/AppHeader";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const montserratSans = Montserrat({
+const manropeSans = Manrope({
   subsets: ["latin"],
 });
 
@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${montserratSans.className} antialiased`}>
+      <body className={`${manropeSans.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

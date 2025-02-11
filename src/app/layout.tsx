@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider } from "@/components/navigation/sidebar/Sidebar";
-import { AppSidebar } from "@/components/navigation/sidebar/AppSidebar";
-import AppHeader from "@/components/navigation/header/AppHeader";
-import { ThemeProvider } from "@/components/theme-provider";
 
 const manropeSans = Manrope({
   subsets: ["latin"],
@@ -22,21 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${manropeSans.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          storageKey="theme"
-          enableSystem
-        >
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="w-full">
-              <AppHeader>{children}</AppHeader>
-            </main>
-          </SidebarProvider>
-        </ThemeProvider>
-      </body>
+      <body className={`${manropeSans.className} antialiased`}>{children}</body>
     </html>
   );
 }

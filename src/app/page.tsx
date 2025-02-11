@@ -1,10 +1,14 @@
-import MenuList from "@/components/menuOrder/menuList/MenuList";
-import OrderSumarry from "@/components/menuOrder/orderSumarry/OrderSumarry";
+import Hero from "@/components/landing/hero/Hero";
+import Navigation from "@/components/landing/navigation/Navigation";
+import React from "react";
 
-export default function Home() {
+const page = () => {
   return (
-    <OrderSumarry>
-      <MenuList />
-    </OrderSumarry>
+    <div className="w-full h-full flex flex-col gap-20 justify-center items-center p-20">
+      <Navigation />
+      <Hero />
+    </div>
   );
-}
+};
+
+export default page;

@@ -17,7 +17,7 @@ const AppHeader = ({ children }: { children: React.ReactNode }) => {
 
   const getHeaderData = () => {
     switch (pathname) {
-      case "/":
+      case "/menu-order":
         return <RestaurantHeader />;
       case "/order/history":
         return <OrderHistoryHeader />;

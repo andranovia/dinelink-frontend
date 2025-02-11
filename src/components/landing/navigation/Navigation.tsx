@@ -8,12 +8,14 @@ const playfairSans = Playfair_Display({
 
 const Navigation = () => {
   return (
-    <div className="flex justify-between items-center w-full fixed px-20 top-10">
+    <div className="mix-blend-difference text-[#f7e3ca]   flex justify-between items-center w-full fixed  px-20 top-0 pt-10 pb-5 z-40">
       <p className="w-[15rem]">
         Revolutionize your restaurant experience with effortless management.
       </p>
       <span className="absolute ml-[20rem]">Manage & Grow</span>
-      <h1 className="font-semibold text-5xl ml-auto mr-auto">DineLink</h1>
+      <h1 className={` text-5xl ml-auto mr-auto ${playfairSans.className}`}>
+        DineLink
+      </h1>
       <div
         className="absolute flex items-center 
       gap-10 right-[20rem]"

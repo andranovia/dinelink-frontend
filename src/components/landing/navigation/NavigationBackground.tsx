@@ -1,8 +1,20 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { defaultTransition } from "@/components/animation";
 
-const NavigationBackground = () => {
+const NavigationBackground = ({
+  navigationToggle,
+}: {
+  navigationToggle: boolean;
+}) => {
   return (
-    <div className="mix-blend-overlay h-[132px]  flex justify-between  z-20 items-center w-full fixed  px-20 top-0 pt-10 pb-5 bg-gradient-to-b from-black to-transparent backdrop-blur-sm"></div>
+    <motion.div
+      transition={defaultTransition}
+      animate={{
+        height: navigationToggle ? "100vh" : "132px",
+      }}
+      className={`mix-blend-overlay flex justify-between  z-20 items-center w-full fixed   px-20 top-0 pt-10 pb-5 bg-gradient-to-b from-black to-transparent backdrop-blur-sm`}
+    ></motion.div>
   );
 };
 

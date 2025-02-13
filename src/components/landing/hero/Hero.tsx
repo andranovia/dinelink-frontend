@@ -35,7 +35,7 @@ const Hero = () => {
             alt="plating of fried vegetables with shrimp"
             width={200}
             height={200}
-            className="z-20 relative ml-2"
+            className="z-10 relative ml-2"
           />
         </div>
         <div className="flex flex-col gap-4 col-span-3">
@@ -77,7 +77,7 @@ const Hero = () => {
                 alt="plating of fried vegetables with shrimp"
                 width={200}
                 height={200}
-                className="z-20 relative -ml-5"
+                className="z-10 relative -ml-5"
               />
             </div>
           </div>

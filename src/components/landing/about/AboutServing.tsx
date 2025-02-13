@@ -27,7 +27,7 @@ const AboutServing = () => {
                 alt="plating of fried vegetables with shrimp"
                 width={120}
                 height={120}
-                className="z-20 relative ml-2"
+                className="z-10 relative ml-2"
               />
             </div>
             <p className="font-medium w-2/4">

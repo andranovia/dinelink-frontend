@@ -6,5 +6,5 @@ export type LoginPayloadType = {
 export type RegisterPayloadType = {
   email: string;
   password: string;
-  username: string;
+  name: string;
 };

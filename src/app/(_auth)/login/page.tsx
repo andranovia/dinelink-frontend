@@ -1,10 +1,10 @@
-import { LoginForm } from "@/components/auth/login-form";
+import { LoginForm } from "@/components/auth/loginForm";
 import Image from "next/image";
 
 export default function LoginPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2 p-3 rounded-md bg-slate-100">
-      <div className="flex flex-col items-center gap-4 p-6 md:p-10 bg-white rounded-lg">
+      <div className="flex flex-col gap-4 p-6 md:p-10 bg-white rounded-lg">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
             <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary p-1 text-primary-foreground">
@@ -24,7 +24,7 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <div className="relative hidden bg-muted lg:block">
+      <div className="relative hidden bg-muted lg:block rounded-lg overflow-hidden">
         <Image
           src="/images/restaurant.jpg"
           alt="login-image"

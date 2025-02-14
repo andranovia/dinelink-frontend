@@ -26,6 +26,7 @@ const useAuth = ({
       login(data.user, data.token);
       localStorage.setItem("token", data.token);
       queryClient.invalidateQueries({ queryKey: ["auth"] });
+      redirect("/menu-order");
     },
   });
 
@@ -36,10 +37,8 @@ const useAuth = ({
         errorMsg: "Register failed, something is wrong.",
         payload: RegisterPayload,
       }),
-    onSuccess: (data) => {
-      if (data.user) {
-        redirect("/login");
-      }
+    onSuccess: () => {
+      redirect("/login");
     },
   });
 

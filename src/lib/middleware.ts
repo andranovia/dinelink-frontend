@@ -2,6 +2,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import useAuthStore from "@/store/authStore";
+import useAuth from "@/hooks/services/useAuth";
 
 export default function ProtectedRoute({
   children,
@@ -11,17 +12,25 @@ export default function ProtectedRoute({
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthenticated } = useAuthStore();
+  const { userData } = useAuth({});
 
-  const isPublic =
-    pathname === "/login" || pathname === "/register" || pathname === "/";
+  const isPublic = pathname === "/";
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (
+      !isAuthenticated &&
+      pathname !== "/register" &&
+      !isPublic &&
+      !userData?.id
+    ) {
       router.push("/login");
-    } else {
-      router.push("/menu-order");
+    } else if (
+      isAuthenticated &&
+      (pathname === "/login" || pathname === "/register")
+    ) {
+      router.push(`/menu-order`);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, pathname, isPublic, userData]);
 
-  return isAuthenticated || isPublic ? children : null;
+  return children;
 }

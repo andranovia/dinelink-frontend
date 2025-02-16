@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axiosInstance from "@/lib/axios";
+import { AxiosRequestConfig } from "axios";
 
 type RequestProps = {
   type: string;
-  payload: unknown;
+  payload: AxiosRequestConfig<any> | undefined | any;
   errorMsg: string;
   method: "get" | "delete" | "put" | "post";
+  callbackFunction?: (response: any) => void;
 };
 
 export const apiRequest = async ({
@@ -12,9 +15,10 @@ export const apiRequest = async ({
   payload,
   errorMsg,
   method,
+  callbackFunction,
 }: RequestProps) => {
+  let response;
   try {
-    let response;
     switch (method) {
       case "get":
         response = await axiosInstance.get(`/${type}`, payload ? payload : {});
@@ -35,8 +39,11 @@ export const apiRequest = async ({
         response = await axiosInstance.get(`/${type}`, payload ? payload : {});
         break;
     }
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 401) {
       return response.data;
+    }
+    if (callbackFunction) {
+      callbackFunction(response);
     }
   } catch (error) {
     console.error(errorMsg, error);

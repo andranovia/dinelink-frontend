@@ -1,11 +1,14 @@
 import React from "react";
 import MenuListItem from "./MenuListItem";
+import { useRestaurant } from "@/hooks/services/useRestaurant";
 
 const MenuList = () => {
+  const { products } = useRestaurant({ params: { restaurantId: 1 } });
+
   return (
     <div className="grid grid-cols-4 w-full gap-3 items-center">
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => (
-        <MenuListItem key={item} />
+      {products?.map((item, index) => (
+        <MenuListItem key={index} productData={item} />
       ))}
     </div>
   );

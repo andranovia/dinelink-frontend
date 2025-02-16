@@ -26,7 +26,7 @@ import { usePathname } from "next/navigation";
 const mainItemsSidebar = [
   {
     title: "Menu Order",
-    url: "/",
+    url: "/menu-order",
     icon: BiFoodMenu,
   },
   {

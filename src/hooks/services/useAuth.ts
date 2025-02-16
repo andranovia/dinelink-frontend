@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuthStore from "@/store/authStore";
 import { apiRequest } from "../functions/apiRequest";
 
@@ -14,6 +14,25 @@ const useAuth = ({
 }) => {
   const queryClient = useQueryClient();
   const { login, logout, token } = useAuthStore();
+
+  const { data: userData } = useQuery<{
+    id: number;
+    name: string;
+    email: string | { message: string };
+  }>({
+    queryKey: ["user"],
+    queryFn: () =>
+      apiRequest({
+        type: "user",
+        errorMsg: "Get user failed, something is wrong.",
+        payload: {
+          headers: {
+            Authorization: `Bearer ${token || localStorage.getItem("token")}`,
+          },
+        },
+        method: "get",
+      }),
+  });
 
   const { mutateAsync: loginAction } = useMutation({
     mutationFn: () =>
@@ -35,7 +54,9 @@ const useAuth = ({
       apiRequest({
         type: "register",
         errorMsg: "Register failed, something is wrong.",
-        payload: RegisterPayload,
+        payload: {
+          params: RegisterPayload,
+        },
         method: "post",
       }),
     onSuccess: () => {
@@ -48,7 +69,11 @@ const useAuth = ({
       apiRequest({
         type: "logout",
         errorMsg: "Logout failed, something is wrong.",
-        payload: `Bearer ${token || localStorage.getItem("token")}`,
+        payload: {
+          headers: {
+            Authorization: `Bearer ${token || localStorage.getItem("token")}`,
+          },
+        },
         method: "post",
       }),
     onSuccess: () => {
@@ -59,7 +84,7 @@ const useAuth = ({
     },
   });
 
-  return { loginAction, registerAction, logoutAction };
+  return { loginAction, registerAction, logoutAction, userData };
 };
 
 export default useAuth;

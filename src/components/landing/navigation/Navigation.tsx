@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Playfair_Display } from "next/font/google";
 import { defaultTransition } from "@/components/animation";
 import NavigationBackground from "./NavigationBackground";
+import Link from "next/link";
 
 const playfairSans = Playfair_Display({
   subsets: ["latin"],
@@ -45,50 +46,44 @@ const Navigation = () => {
       </div>
       <motion.div
         onClick={() => setNavigationToggle(!navigationToggle)}
-        className="fixed bg-slate-50 w-[10rem] h-[10rem]  flex justify-center items-start flex-col z-30 top-0 right-0 rounded-full"
+        className="fixed bg-slate-50 w-screen h-screen bg-opacity-80  flex justify-center items-center flex-col z-30 top-0 right-0 "
         initial={false}
         animate={{
-          scale: 7,
-          x: navigationToggle ? 0 : 700,
-          y: 200,
+          opacity: navigationToggle ? 1 : 0,
         }}
         transition={{ ...defaultTransition, duration: 0.8 }}
       >
         <div
-          className={`${playfairSans.className} relative text-md font-medium text-primary flex flex-col items-end px-5 pt-4`}
+          className={`${playfairSans.className} relative text-8xl font-medium text-primary flex flex-col gap-10 items-center px-5 pt-4`}
         >
-          <motion.h2
-            initial={false}
-            animate={{
-              y: navigationToggle ? 0 : -40,
-              rotate: navigationToggle ? -4 : 10,
-            }}
-            transition={{ ...defaultTransition, duration: 0.8 }}
+          <Link
+            href="/register"
             className={`${
               isLoginHovered
                 ? "text-slate-400 before:opacity-0"
                 : "text-primary before:translate-x-0 before:opacity-100"
             } text-primary  before:border-b-primary 
            before:content-['']  before:block before:absolute 
-           before:border-l-[4px] before:border-l-transparent 
-           before:border-r-[4px] before:border-r-transparent  
-           before:border-b-[8px] before:top-[-10px] 
-           before:left-2 before:-bottom-3 before:rotate-90 before:transition-[opacity,transform] before:rounded-sm  before:-translate-x-1`}
+           before:border-l-[14px] before:border-l-transparent 
+           before:border-r-[14px] before:border-r-transparent  
+           before:border-b-[18px] before:top-[4rem] 
+           before:-left-[2rem]  before:rotate-90 before:transition-[opacity,transform] before:rounded-sm  before:-translate-x-1`}
           >
             Register
-          </motion.h2>
-          <h2
+          </Link>
+          <Link
+            href="/login"
             onMouseEnter={() => setIsLoginHovered(true)}
             onMouseLeave={() => setIsLoginHovered(false)}
             className="hover:text-primary text-slate-400 before:border-b-primary 
            before:content-[''] hover:before:opacity-100 before:block before:absolute 
-           before:border-l-[4px] before:border-l-transparent 
-           before:border-r-[4px] before:border-r-transparent  
-           before:border-b-[8px] before:top-[2rem] 
-           before:left-[2.7rem] before:-bottom-3 before:rotate-90 before:opacity-0 before:transition-[opacity,transform] before:rounded-sm hover:before:translate-x-0 before:-translate-x-1 "
+           before:border-l-[14px] before:border-l-transparent 
+           before:border-r-[14px] before:border-r-transparent  
+           before:border-b-[18px] ] before:bottom-[2rem] 
+           before:left-[1.6rem]   before:rotate-90 before:opacity-0 before:transition-[opacity,transform] before:rounded-sm hover:before:translate-x-0 before:-translate-x-1 "
           >
             Login
-          </h2>
+          </Link>
         </div>
       </motion.div>
     </>

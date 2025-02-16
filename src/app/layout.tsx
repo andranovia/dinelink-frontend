@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import { ReactQueryProvider } from "@/lib/queryProviders";
+import ProtectedRoute from "@/lib/middleware";
 
 const manropeSans = Manrope({
   subsets: ["latin"],
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${manropeSans.className} antialiased`}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <ProtectedRoute>{children}</ProtectedRoute>
+        </ReactQueryProvider>
       </body>
     </html>
   );

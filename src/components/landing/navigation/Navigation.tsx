@@ -13,6 +13,7 @@ const playfairSans = Playfair_Display({
 
 const Navigation = () => {
   const [navigationToggle, setNavigationToggle] = React.useState(false);
+  const [isLoginHovered, setIsLoginHovered] = React.useState(false);
 
   return (
     <>
@@ -63,16 +64,22 @@ const Navigation = () => {
               rotate: navigationToggle ? -4 : 10,
             }}
             transition={{ ...defaultTransition, duration: 0.8 }}
-            className="hover:text-primary text-slate-400 before:border-b-primary 
-           before:content-[''] hover:before:opacity-100 before:block before:absolute 
+            className={`${
+              isLoginHovered
+                ? "text-slate-400 before:opacity-0"
+                : "text-primary before:translate-x-0 before:opacity-100"
+            } text-primary  before:border-b-primary 
+           before:content-['']  before:block before:absolute 
            before:border-l-[4px] before:border-l-transparent 
            before:border-r-[4px] before:border-r-transparent  
            before:border-b-[8px] before:top-[-10px] 
-           before:left-2 before:-bottom-3 before:rotate-90 before:opacity-0 before:transition-[opacity,transform] before:rounded-sm hover:before:translate-x-0 before:-translate-x-1 "
+           before:left-2 before:-bottom-3 before:rotate-90 before:transition-[opacity,transform] before:rounded-sm  before:-translate-x-1`}
           >
             Register
           </motion.h2>
           <h2
+            onMouseEnter={() => setIsLoginHovered(true)}
+            onMouseLeave={() => setIsLoginHovered(false)}
             className="hover:text-primary text-slate-400 before:border-b-primary 
            before:content-[''] hover:before:opacity-100 before:block before:absolute 
            before:border-l-[4px] before:border-l-transparent 

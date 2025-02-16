@@ -1,3 +1,5 @@
+"use client";
+
 import AboutRestaurant from "@/components/landing/about/AboutRestaurant";
 import AboutServing from "@/components/landing/about/AboutServing";
 import Cta from "@/components/landing/cta/Cta";

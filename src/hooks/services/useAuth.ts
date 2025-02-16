@@ -13,7 +13,7 @@ const useAuth = ({
   LoginPayload?: LoginPayloadType | undefined;
 }) => {
   const queryClient = useQueryClient();
-  const { login, logout } = useAuthStore();
+  const { login, logout, token } = useAuthStore();
 
   const { mutateAsync: loginAction } = useMutation({
     mutationFn: () =>
@@ -21,10 +21,10 @@ const useAuth = ({
         type: "login",
         errorMsg: "Login failed, check your credentials.",
         payload: LoginPayload,
+        method: "post",
       }),
     onSuccess: (data) => {
       login(data.user, data.token);
-      localStorage.setItem("token", data.token);
       queryClient.invalidateQueries({ queryKey: ["auth"] });
       redirect("/menu-order");
     },
@@ -36,6 +36,7 @@ const useAuth = ({
         type: "register",
         errorMsg: "Register failed, something is wrong.",
         payload: RegisterPayload,
+        method: "post",
       }),
     onSuccess: () => {
       redirect("/login");
@@ -45,14 +46,16 @@ const useAuth = ({
   const { mutateAsync: logoutAction } = useMutation({
     mutationFn: () =>
       apiRequest({
-        type: "login",
+        type: "logout",
         errorMsg: "Logout failed, something is wrong.",
-        payload: null,
+        payload: `Bearer ${token || localStorage.getItem("token")}`,
+        method: "post",
       }),
     onSuccess: () => {
       logout();
       localStorage.removeItem("token");
       queryClient.invalidateQueries({ queryKey: ["auth"] });
+      redirect("/login");
     },
   });
 

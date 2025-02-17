@@ -7,6 +7,7 @@ type AuthState = {
 };
 
 type AuthActions = {
+  setUser: (user: { id: number; name: string; email: string }) => void;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   login: (
     user: { id: number; name: string; email: string },
@@ -18,6 +19,7 @@ type AuthActions = {
 const useAuthStore = create<AuthState & AuthActions>((set) => ({
   user: null,
   token: null,
+  setUser: (user) => set({ user }),
   setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
   isAuthenticated: !!localStorage.getItem("token"),
   login: (user, token) => {

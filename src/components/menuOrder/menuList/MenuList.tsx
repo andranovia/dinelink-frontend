@@ -7,9 +7,11 @@ const MenuList = () => {
 
   return (
     <div className="grid grid-cols-4 w-full gap-3 items-center">
-      {products?.map((item, index) => (
-        <MenuListItem key={index} productData={item} />
-      ))}
+      {products && products.length > 0
+        ? products?.map((item, index) => (
+            <MenuListItem key={index} productData={item} />
+          ))
+        : null}
     </div>
   );
 };

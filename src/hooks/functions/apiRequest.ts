@@ -39,11 +39,11 @@ export const apiRequest = async ({
         response = await axiosInstance.get(`/${type}`, payload ? payload : {});
         break;
     }
-    if (response.status === 200 || response.status === 401) {
-      return response.data;
-    }
     if (callbackFunction) {
       callbackFunction(response);
+    }
+    if (response.status === 200 || response.status === 401) {
+      return response.data;
     }
   } catch (error) {
     console.error(errorMsg, error);

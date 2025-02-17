@@ -9,22 +9,31 @@ import {
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 import OrderMenuItem from "./OrderMenuItem";
+import { useCart } from "@/hooks/services/useCart";
+import OrderMenuItemSkeleton from "./loading/OrderMenuItemSkeleton";
 
-const OrderSumarry = ({ children }: { children: React.ReactNode }) => {
+const OrderSummary = ({ children }: { children: React.ReactNode }) => {
+  const { cart } = useCart({});
+
   return (
     <div className="flex justify-center gap-3 p-3 relative">
       {children}
-      <Card className="w-[35%] h-fit sticky top-[5rem]">
-        <CardHeader>
+      <Card className="w-[35%] min-h-[calc(100vh-10rem)] h-fit sticky top-[5rem]">
+        <CardHeader className="p-4">
           <CardTitle>Order Summary</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid gap-4">
-            {Array.from({ length: 3 }).map((_, index) => (
-              <OrderMenuItem key={index} />
-            ))}
-            <Separator />
-          </div>
+        <CardContent className=" px-3 pt-0">
+          <Card className="h-[17.2rem] overflow-y-auto scrollbar scrollbar-thumb-primary scrollbar-w-[5px] scrollbar-thumb-rounded-full scrollbar-track-gray-300">
+            <CardContent className="grid gap-4 py-3 px-3">
+              {cart && cart?.cart.length > 0
+                ? cart?.cart.map((itemData, index) => (
+                    <OrderMenuItem key={index} cartItemData={itemData} />
+                  ))
+                : Array.from({ length: 3 }).map((_, index) => (
+                    <OrderMenuItemSkeleton key={index} />
+                  ))}
+            </CardContent>
+          </Card>
         </CardContent>
         <CardContent>
           <div className="grid gap-4">
@@ -57,4 +66,4 @@ const OrderSumarry = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default OrderSumarry;
+export default OrderSummary;

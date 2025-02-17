@@ -69,5 +69,11 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [
+    tailwindcssAnimate, // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require("tailwind-scrollbar")({
+      preferredStrategy: "pseudoelements",
+      nocompatible: true,
+    }),
+  ],
 } satisfies Config;

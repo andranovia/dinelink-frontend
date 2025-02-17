@@ -13,12 +13,13 @@ const useAuth = ({
   LoginPayload?: LoginPayloadType | undefined;
 }) => {
   const queryClient = useQueryClient();
-  const { login, logout, token } = useAuthStore();
+  const { login, logout, token, setUser } = useAuthStore();
 
   const { data: userData } = useQuery<{
     id: number;
     name: string;
-    email: string | { message: string };
+    email: string;
+    message: string;
   }>({
     queryKey: ["user"],
     queryFn: () =>
@@ -31,6 +32,9 @@ const useAuth = ({
           },
         },
         method: "get",
+        callbackFunction(response) {
+          setUser(response.data);
+        },
       }),
   });
 

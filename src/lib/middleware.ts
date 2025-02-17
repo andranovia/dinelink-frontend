@@ -11,17 +11,22 @@ export default function ProtectedRoute({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, logout } = useAuthStore();
   const { userData } = useAuth({});
-
   const isPublic = pathname === "/";
+
+  useEffect(() => {
+    if (userData?.message === "Unauthenticated.") {
+      logout();
+    }
+  }, [userData, logout]);
 
   useEffect(() => {
     if (
       !isAuthenticated &&
       pathname !== "/register" &&
       !isPublic &&
-      !userData?.id
+      userData?.message === "Unauthenticated."
     ) {
       router.push("/login");
     } else if (

@@ -11,6 +11,10 @@ import { CgUnavailable } from "react-icons/cg";
 import Image from "next/image";
 import React from "react";
 import { BiPlus } from "react-icons/bi";
+import { FormModal } from "@/components/modals/FormModal";
+import { useCart } from "@/hooks/services/useCart";
+import useAuthStore from "@/store/authStore";
+import { CartItem } from "@/types/cart";
 
 type MenuListItemProps = {
   productData?: ProductType;
@@ -22,6 +26,17 @@ const MenuListItem = ({
   className,
   ...props
 }: MenuListItemProps) => {
+  const { user } = useAuthStore();
+  const [addCartItemPayload, setAddCartItemPayload] = React.useState({
+    user_id: user?.id || 0,
+    product_id: productData?.id || 0,
+    quantity: 1,
+    notes: "",
+    size: "Small",
+  });
+
+  const { addCartItem } = useCart({ addToCartPayload: addCartItemPayload });
+
   const getButtonLabel = (available: boolean) => {
     switch (available) {
       case true:
@@ -79,13 +94,98 @@ const MenuListItem = ({
         </div>
       </CardContent>
       <CardFooter className="px-2 pb-3">
-        <Button
-          className="w-full bg-primary"
-          disabled={!productData?.available}
-        >
-          {getButtonLabel(!productData?.available).icon}
-          {getButtonLabel(!productData?.available).label}
-        </Button>
+        <FormModal
+          buttonLabel="Add to cart"
+          modalTrigger={
+            <Button
+              className="w-full bg-primary"
+              disabled={!productData?.available}
+            >
+              {getButtonLabel(!productData?.available).icon}
+              {getButtonLabel(!productData?.available).label}
+            </Button>
+          }
+          formData={{
+            title: "Add to cart",
+            description: "Please fill the form below to add to cart",
+            form: [
+              {
+                name: "quantity",
+                label: "Quantity",
+                type: "number",
+                placeholder: "1",
+                defaultValue: 1,
+              },
+              {
+                name: "notes",
+                label: "Notes",
+                type: "text",
+                placeholder: "Make it spicy",
+              },
+
+              {
+                name: "size",
+                label: "Size",
+                type: "select",
+                options: [
+                  {
+                    value: "Small",
+                    label: "Small",
+                  },
+                  {
+                    value: "Medium",
+                    label: "Medium",
+                  },
+                  {
+                    value: "Large",
+                    label: "Large",
+                  },
+                ],
+              },
+            ],
+          }}
+          selectValue={addCartItemPayload.size}
+          setSelectValue={setAddCartItemPayload}
+          onSubmit={(values: CartItem) => {
+            setAddCartItemPayload({
+              ...addCartItemPayload,
+              notes: values.notes,
+              quantity: values.quantity,
+              size: values.size,
+            });
+            addCartItem();
+          }}
+          initialData={{
+            user_id: 1,
+            product_id: productData?.id || 0,
+            quantity: 1,
+            notes: "Make it spicy",
+            size: "Large",
+          }}
+          imageComponent={
+            <div className="flex flex-col pt-4">
+              <div className="relative">
+                <Image
+                  src={
+                    "https://plus.unsplash.com/premium_photo-1664472724753-0a4700e4137b?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  }
+                  alt="bangoran"
+                  width={200}
+                  height={200}
+                  className="w-full h-[10rem] object-cover rounded-lg"
+                />
+                <div className="flex justify-center items-center p-1 px-2 top-0 rounded-md absolute bg-white gap-1 m-1.5">
+                  <span className="flex h-2 w-2  rounded-full bg-green-500" />
+                  <span className="text-xs font-semibold">Available</span>
+                </div>
+              </div>
+              <div className="flex justify-between py-3 px-2">
+                <span className="font-medium">{productData?.name}</span>
+                <span className="font-bold">${productData?.price}</span>
+              </div>
+            </div>
+          }
+        />
       </CardFooter>
     </Card>
   );

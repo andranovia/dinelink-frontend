@@ -1,0 +1,63 @@
+import { Payment } from "@/types/payment";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { apiRequest } from "../functions/apiRequest";
+
+export type CheckoutProps = {
+  checkoutData?: {
+    purchased_products?: PurchasedProducts[];
+    current_url: string;
+  };
+  successId?: string;
+};
+
+type PurchasedProducts = {
+  id: number;
+  name: string;
+  amount: number;
+  item_price: number;
+};
+
+const useCheckout = ({ checkoutData, successId }: CheckoutProps) => {
+  const router = useRouter();
+
+  //   const { data: checkoutDetail } = useQuery<Payment | null>({
+  //     queryKey: ["checkoutDetail"],
+  //     queryFn: () =>
+  //       apiRequest({
+  //         type: "checkout",
+  //         method: "get",
+  //         payload: {
+  //           params: {
+  //             id: successId,
+  //           },
+  //         },
+  //         errorMsg: "Get checkout detail failed, something is wrong.",
+  //       }),
+  //     enabled: !!successId,
+  //   });
+
+  const { mutateAsync: makeCheckout } = useMutation({
+    mutationFn: () =>
+      apiRequest({
+        type: "checkout",
+        method: "post",
+        payload: checkoutData,
+        errorMsg: "Submit checkout failed, something is wrong.",
+      }),
+    onSuccess: (response) => {
+      if (response) {
+        router.push(response.url);
+      } else {
+        console.log("Submit checkout failed");
+      }
+    },
+  });
+
+  return {
+    makeCheckout,
+    // checkoutDetail,
+  };
+};
+
+export default useCheckout;

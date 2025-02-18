@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -28,7 +29,6 @@ export function FormModal({
   onSubmit,
   buttonLabel,
   modalTrigger,
-  setSelectValue,
   selectValue,
   imageComponent,
   initialData,
@@ -41,7 +41,6 @@ export function FormModal({
     }[];
   };
   onSubmit: (values: any) => void;
-  setSelectValue?: (any: any) => void;
   selectValue?: string;
   initialData?: { [key: string]: string | number };
   buttonLabel: string;
@@ -60,8 +59,6 @@ export function FormModal({
     });
   };
 
-  console.log("option.value", selectValue);
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{modalTrigger}</DialogTrigger>
@@ -69,7 +66,7 @@ export function FormModal({
         <Formik
           initialValues={{ ...initialData }}
           validationSchema={formSchema}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={async (values, { setSubmitting }) => {
             onSubmit(values);
             setSubmitting(false);
             setIsOpen(false);
@@ -95,32 +92,37 @@ export function FormModal({
                       </Label>
 
                       {field.type === "select" ? (
-                        <Select>
-                          <SelectTrigger className="w-full col-span-3">
-                            <SelectValue placeholder={selectValue} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              {Array.isArray(field.options) &&
-                                field.options.map((option, index) => (
-                                  <SelectItem
-                                    key={index}
-                                    value={option.value}
-                                    onClick={() => {
-                                      if (setSelectValue) {
-                                        setSelectValue((prev: any) => ({
-                                          ...prev,
-                                          [field.name as string]: option.value,
-                                        }));
-                                      }
-                                    }}
-                                  >
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
+                        <Field name={field.name as string}>
+                          {({ field: formikField, form }: any) => (
+                            <Select
+                              value={formikField.value}
+                              onValueChange={(value) =>
+                                form.setFieldValue(field.name, value)
+                              }
+                            >
+                              <SelectTrigger className="w-full col-span-3">
+                                <SelectValue
+                                  placeholder={
+                                    selectValue ? selectValue : "Select Option"
+                                  }
+                                />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  {Array.isArray(field.options) &&
+                                    field.options.map((option, index) => (
+                                      <SelectItem
+                                        key={index}
+                                        value={option.value}
+                                      >
+                                        {option.label}
+                                      </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          )}
+                        </Field>
                       ) : (
                         <Field
                           type={field.type as string}
@@ -135,7 +137,12 @@ export function FormModal({
                   ))}
                 </div>
               </div>
-              <DialogFooter>
+              <DialogFooter className="grid-cols-2 grid">
+                <DialogClose asChild className="col-span-1">
+                  <Button type="button" variant="outline">
+                    Close
+                  </Button>
+                </DialogClose>
                 <Button type="submit" disabled={isSubmitting}>
                   {buttonLabel}
                 </Button>

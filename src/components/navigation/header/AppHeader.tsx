@@ -11,6 +11,7 @@ import { SidebarTrigger } from "../sidebar/Sidebar";
 import RestaurantHeader from "./restaurant/RestaurantHeader";
 import { usePathname } from "next/navigation";
 import OrderHistoryHeader from "./orderHistory/OrderHistoryHeader";
+import ManageTableHeader from "./manageTable/ManageTableHeader";
 
 const AppHeader = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -21,6 +22,8 @@ const AppHeader = ({ children }: { children: React.ReactNode }) => {
         return <RestaurantHeader />;
       case "/order/history":
         return <OrderHistoryHeader />;
+      case "/order/table":
+        return <ManageTableHeader />;
     }
   };
 

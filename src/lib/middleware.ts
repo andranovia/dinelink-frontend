@@ -1,4 +1,5 @@
 "use client";
+
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import useAuthStore from "@/store/authStore";
@@ -18,8 +19,9 @@ export default function ProtectedRoute({
   useEffect(() => {
     if (userData?.message === "Unauthenticated.") {
       logout();
+      router.push("/login");
     }
-  }, [userData, logout]);
+  }, [userData, logout, router]);
 
   useEffect(() => {
     if (

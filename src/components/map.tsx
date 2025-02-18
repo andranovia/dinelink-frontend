@@ -3,7 +3,7 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import React from "react";
 import { cn } from "@/lib/utils";
 
-const MapDefault = ({ className }: { className: string }) => {
+const MapDefault = ({ className }: { className?: string }) => {
   return (
     <MapContainer
       center={[51.505, -0.09]}

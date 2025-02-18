@@ -56,6 +56,10 @@ const subItemsSidebar = [
     icon: MdOutlineTableRestaurant,
     items: [
       {
+        title: "Manage Table",
+        url: "/order/table",
+      },
+      {
         title: "Active Orders",
         url: "/order/active",
       },
@@ -99,7 +103,7 @@ const AppSidebarContent = () => {
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
-          <hr className="border-black my-4  border-opacity-20" />
+          <hr className="border-black my-2  border-opacity-20" />
           <SidebarMenu className="px-2 py-2">
             {subItemsSidebar.map((item, index) => (
               <React.Fragment key={index}>

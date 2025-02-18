@@ -7,20 +7,22 @@ import useAuthStore from "@/store/authStore";
 export function useCart({
   addToCartPayload,
   EditCartItemPayload,
+  DeleteCartItemPayload,
 }: {
   addToCartPayload?: {
-    user_id: number;
     product_id: number;
     quantity: number;
     notes: string;
     size: string;
   };
   EditCartItemPayload?: {
-    user_id: number;
     product_id: number;
     quantity: number;
     notes: string;
     size: string;
+  };
+  DeleteCartItemPayload?: {
+    product_id: number;
   };
 }) {
   const { setCart, addToCart, editCart } = useCartStore();
@@ -51,7 +53,7 @@ export function useCart({
       apiRequest({
         type: "cart",
         errorMsg: "Add to cart failed, something is wrong.",
-        payload: addToCartPayload,
+        payload: { ...addToCartPayload, user_id: user?.id },
         method: "post",
       }),
     onSuccess: (data) => {
@@ -65,8 +67,27 @@ export function useCart({
       apiRequest({
         type: "cart",
         errorMsg: "Edit cart item failed, something is wrong.",
-        payload: EditCartItemPayload,
+        payload: { ...EditCartItemPayload, user_id: user?.id },
         method: "put",
+      }),
+    onSuccess: (data) => {
+      editCart(data);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+
+  const { mutateAsync: deleteCartItem } = useMutation({
+    mutationFn: () =>
+      apiRequest({
+        type: "cart",
+        errorMsg: "Delete cart item failed, something is wrong.",
+        payload: {
+          params: {
+            user_id: user?.id,
+            product_id: DeleteCartItemPayload?.product_id,
+          },
+        },
+        method: "delete",
       }),
     onSuccess: (data) => {
       editCart(data);
@@ -77,6 +98,7 @@ export function useCart({
   return {
     cart,
     addCartItem,
+    deleteCartItem,
     editCartItem,
     isCartLoading,
   };

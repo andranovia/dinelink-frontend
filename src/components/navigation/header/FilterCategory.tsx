@@ -2,14 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 
-type RestaurantCategoryProps = {
+type FilterCategoryProps = {
   Categories: {
     name: string;
     count: number;
   }[];
 };
 
-const RestaurantCategory = ({ Categories }: RestaurantCategoryProps) => {
+const FilterCategory = ({ Categories }: FilterCategoryProps) => {
   return (
     <div className="flex items-center gap-2">
       <Button
@@ -37,4 +37,4 @@ const RestaurantCategory = ({ Categories }: RestaurantCategoryProps) => {
   );
 };
 
-export default RestaurantCategory;
+export default FilterCategory;

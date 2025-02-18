@@ -13,7 +13,6 @@ import React from "react";
 import { BiPlus } from "react-icons/bi";
 import { FormModal } from "@/components/modals/FormModal";
 import { useCart } from "@/hooks/services/useCart";
-import useAuthStore from "@/store/authStore";
 import { CartItem } from "@/types/cart";
 
 type MenuListItemProps = {
@@ -26,9 +25,7 @@ const MenuListItem = ({
   className,
   ...props
 }: MenuListItemProps) => {
-  const { user } = useAuthStore();
   const [addCartItemPayload, setAddCartItemPayload] = React.useState({
-    user_id: user?.id || 0,
     product_id: productData?.id || 0,
     quantity: 1,
     notes: "",
@@ -144,8 +141,6 @@ const MenuListItem = ({
               },
             ],
           }}
-          selectValue={addCartItemPayload.size}
-          setSelectValue={setAddCartItemPayload}
           onSubmit={(values: CartItem) => {
             setAddCartItemPayload({
               ...addCartItemPayload,

@@ -1,23 +1,22 @@
+import { ConfirmModal } from "@/components/modals/ConfirmModal";
 import { FormModal } from "@/components/modals/FormModal";
 import { useCart } from "@/hooks/services/useCart";
-import useAuthStore from "@/store/authStore";
 import { CartItem } from "@/types/cart";
 import Image from "next/image";
 import React from "react";
 import { BiEdit, BiTrash } from "react-icons/bi";
 
 const OrderMenuItem = ({ cartItemData }: { cartItemData: CartItem }) => {
-  const { user } = useAuthStore();
   const [editCartItemPayload, setEditCartItemPayload] = React.useState({
-    user_id: user?.id || 0,
     product_id: cartItemData?.product_id || 0,
     quantity: cartItemData.quantity,
     notes: cartItemData.notes,
     size: cartItemData.size,
   });
 
-  const { editCartItem } = useCart({
+  const { editCartItem, deleteCartItem } = useCart({
     EditCartItemPayload: editCartItemPayload,
+    DeleteCartItemPayload: { product_id: cartItemData.product_id },
   });
 
   const getShorthandSize = (size: string) => {
@@ -115,8 +114,7 @@ const OrderMenuItem = ({ cartItemData }: { cartItemData: CartItem }) => {
                 });
                 editCartItem();
               }}
-              selectValue={editCartItemPayload.size}
-              setSelectValue={setEditCartItemPayload}
+              selectValue={cartItemData.size}
               initialData={{
                 user_id: 1,
                 product_id: cartItemData?.product_id,
@@ -152,8 +150,14 @@ const OrderMenuItem = ({ cartItemData }: { cartItemData: CartItem }) => {
                 </div>
               }
             ></FormModal>
-
-            <BiTrash />
+            <ConfirmModal
+              iconImage={<BiTrash size={25} color="#2e3352" />}
+              modalTrigger={<BiTrash />}
+              buttonLabel="Delete"
+              onSubmit={() => deleteCartItem()}
+              title="Delete Item"
+              description="Are you sure you want to delete this item?"
+            />
           </div>
         </div>
       </div>

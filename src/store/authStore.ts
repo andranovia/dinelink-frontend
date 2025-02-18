@@ -21,13 +21,18 @@ const useAuthStore = create<AuthState & AuthActions>((set) => ({
   token: null,
   setUser: (user) => set({ user }),
   setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
-  isAuthenticated: !!localStorage.getItem("token"),
+  isAuthenticated:
+    typeof window !== "undefined" && !!localStorage.getItem("token"),
   login: (user, token) => {
-    localStorage.setItem("token", token);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("token", token);
+    }
     set({ user, token, isAuthenticated: true });
   },
   logout: () => {
-    localStorage.removeItem("token");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+    }
     set({ user: null, token: null, isAuthenticated: false });
   },
 }));

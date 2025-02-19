@@ -49,7 +49,7 @@ export function useRestaurant({
         method: "put",
       }),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["restaurantTable"] });
+      queryClient.invalidateQueries({ queryKey: ["restaurantTableUser"] });
     },
   });
 

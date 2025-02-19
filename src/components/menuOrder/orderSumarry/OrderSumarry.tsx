@@ -14,10 +14,19 @@ import OrderMenuItemSkeleton from "./loading/OrderMenuItemSkeleton";
 import { MdOutlinePayments, MdSearchOff } from "react-icons/md";
 import { ConfirmModal } from "@/components/modals/ConfirmModal";
 import useCheckout from "@/hooks/services/usePayment";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useRestaurant } from "@/hooks/services/useRestaurant";
+import { BiTable } from "react-icons/bi";
+import { PiWarningCircle } from "react-icons/pi";
 
 const OrderSummary = ({ children }: { children: React.ReactNode }) => {
   const { cart, isCartLoading } = useCart({});
+  const { restaurantTableUser } = useRestaurant({
+    params: { restaurantId: 1 },
+  });
+
+  const router = useRouter();
+
   const pathname = usePathname();
   const { makeCheckout } = useCheckout({
     checkoutData: {
@@ -87,21 +96,49 @@ const OrderSummary = ({ children }: { children: React.ReactNode }) => {
             <Separator />
             <div className="flex items-center justify-between font-bold">
               <span>Total</span>
-              <span>${SubTotal ? SubTotal + Number(Tax) : 0}</span>
+              <span>${(SubTotal ? SubTotal + Number(Tax) : 0).toFixed(2)}</span>
             </div>
           </div>
         </CardContent>
         <CardFooter>
-          <ConfirmModal
-            iconImage={<MdOutlinePayments size={25} />}
-            modalTrigger={
-              <Button className="w-full bg-primary">Confirm Payment</Button>
-            }
-            buttonLabel="Confirm"
-            onSubmit={makeCheckout}
-            title="Payment Confirmation"
-            description="You will be redirected to the payment page."
-          />
+          {cart && cart?.cart.length > 0 ? (
+            restaurantTableUser?.restaurant_table ? (
+              <ConfirmModal
+                iconImage={<MdOutlinePayments size={25} />}
+                modalTrigger={
+                  <Button className="w-full bg-primary">Confirm Payment</Button>
+                }
+                buttonLabel="Confirm"
+                onSubmit={makeCheckout}
+                title="Checkout Confirmation"
+                description="You will be redirected to the payment page."
+              />
+            ) : (
+              <ConfirmModal
+                iconImage={<BiTable size={25} />}
+                modalTrigger={
+                  <Button className="w-full bg-primary">Confirm Payment</Button>
+                }
+                buttonLabel="Confirm"
+                onSubmit={() => {
+                  router.push("/order/table");
+                }}
+                title="Checkout Confirmation"
+                description="Please select your table to proceed."
+              />
+            )
+          ) : (
+            <ConfirmModal
+              iconImage={<PiWarningCircle size={25} />}
+              modalTrigger={
+                <Button className="w-full bg-primary">Confirm Payment</Button>
+              }
+              buttonLabel="Confirm"
+              onSubmit={() => {}}
+              title="Checkout Confirmation"
+              description="Please add items to your cart."
+            />
+          )}
         </CardFooter>
       </Card>
     </div>

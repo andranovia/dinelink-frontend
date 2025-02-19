@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -34,27 +40,40 @@ const ManageTableSummary = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="flex-grow">
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <div className="flex items-center justify-between">
-                  <span>Table No.</span>
-                  <span>7</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Floor</span>
-                  <span>1</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Notes</span>
-                  <span></span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Person</span>
-                  <span>4</span>
-                </div>
-              </div>
-              <Separator />
-            </div>
+            {restaurantTableUser?.restaurant_table?.map((table, index) => (
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full"
+                key={index}
+              >
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Table {index + 1}</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <div className="flex items-center justify-between">
+                          <span>Table Number.</span>
+                          <span>{table.number}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Floor</span>
+                          <span>{table.floor}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Notes</span>
+                          <span>{table.notes}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Person</span>
+                          <span>{table.persons}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            ))}
           </CardContent>
           <CardFooter className="bg-indigo-50 bg-opacity-50 flex flex-col items-center gap-4">
             <p className="font-medium text-sm text-gray-700">

@@ -21,21 +21,21 @@ type PurchasedProducts = {
 const useCheckout = ({ checkoutData, successId }: CheckoutProps) => {
   const router = useRouter();
 
-  //   const { data: checkoutDetail } = useQuery<Payment | null>({
-  //     queryKey: ["checkoutDetail"],
-  //     queryFn: () =>
-  //       apiRequest({
-  //         type: "checkout",
-  //         method: "get",
-  //         payload: {
-  //           params: {
-  //             id: successId,
-  //           },
-  //         },
-  //         errorMsg: "Get checkout detail failed, something is wrong.",
-  //       }),
-  //     enabled: !!successId,
-  //   });
+  const { data: checkoutDetails } = useQuery<Payment | null>({
+    queryKey: ["checkoutDetail"],
+    queryFn: () =>
+      apiRequest({
+        type: "checkout",
+        method: "get",
+        payload: {
+          params: {
+            sessionId: successId,
+          },
+        },
+        errorMsg: "Get checkout detail failed, something is wrong.",
+      }),
+    enabled: !!successId,
+  });
 
   const { mutateAsync: makeCheckout } = useMutation({
     mutationFn: () =>
@@ -56,7 +56,7 @@ const useCheckout = ({ checkoutData, successId }: CheckoutProps) => {
 
   return {
     makeCheckout,
-    // checkoutDetail,
+    checkoutDetails,
   };
 };
 

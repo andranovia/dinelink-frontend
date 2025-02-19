@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import OrderActiveCardItem from "@/components/orderActive/OrderActiveOrderItem";
@@ -16,9 +17,47 @@ import React from "react";
 import { BiMinus, BiPlus, BiReset } from "react-icons/bi";
 import Image from "next/image";
 import MapDefault from "@/components/map";
+import useOrder from "@/hooks/services/useOrder";
+import moment from "moment";
+import { CartItem } from "@/types/cart";
+import { useRestaurant } from "@/hooks/services/useRestaurant";
+import { RestaurantTableType } from "@/types/restaurant";
+import useAuthStore from "@/store/authStore";
+import Link from "next/link";
+import useCheckout from "@/hooks/services/usePayment";
+import { usePathname } from "next/navigation";
 
-const page = () => {
-  const id = "334902445";
+const Page = () => {
+  const { checkoutDetails } = useOrder({ params: { restaurant_id: 1 } });
+  const { user } = useAuthStore();
+  const { restaurantTable } = useRestaurant({
+    params: { restaurantId: 1 },
+  });
+  const { restaurantTableUser } = useRestaurant({
+    params: { restaurantId: 1 },
+  });
+  const pathname = usePathname();
+  const items: CartItem[] = JSON.parse(checkoutDetails?.items || "[]");
+
+  const { makeCheckout } = useCheckout({
+    checkoutData: {
+      purchased_products: items.map((item) => ({
+        id: item.product.id,
+        name: item.product.name,
+        amount: item.quantity,
+        item_price: item.product.price,
+      })),
+      table_id: restaurantTableUser?.restaurant_table.map((table) => table.id),
+      tax: Number(checkoutDetails?.tax),
+      items: items?.map((item) => item) ?? [],
+      restaurant_id: 1,
+      subtotal: checkoutDetails ? checkoutDetails.subtotal : 0,
+      total:
+        (checkoutDetails ? checkoutDetails?.total : 0) +
+        Number(checkoutDetails?.tax),
+      current_url: pathname,
+    },
+  });
 
   return (
     <div className="p-3 grid grid-cols-6 gap-3">
@@ -28,17 +67,22 @@ const page = () => {
             <div className="flex flex-col gap-4">
               <CardTitle className="flex flex-row items-center gap-4">
                 <span className="bg-yellow-400 w-2 h-2 rounded-full"></span>
-                <h2 className="text-2xl">Order ID: {id}</h2>
+                <h2 className="text-2xl">
+                  Order ID: {checkoutDetails?.order_id}
+                </h2>
               </CardTitle>
               <CardDescription className="text-sm font-semibold">
-                8 January, 2022 - 12:00 PM
+                {moment(checkoutDetails?.created_at).format("MMMM Do YYYY")}
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="flex flex-col gap-6">
-            <OrderActiveCardItems />
-            <CurrentTableOrder />
-            <OrderSummary />
+            <OrderActiveCardItems itemsData={checkoutDetails?.items} />
+            <CurrentTableOrder tableData={restaurantTable} user={user} />
+            <OrderSummary
+              checkoutDetails={checkoutDetails}
+              onFinishPayment={makeCheckout}
+            />
           </CardContent>
         </Card>
       </div>
@@ -47,8 +91,10 @@ const page = () => {
   );
 };
 
-export default page;
-const OrderActiveCardItems = () => {
+export default Page;
+const OrderActiveCardItems = ({ itemsData }: { itemsData?: string }) => {
+  const items: CartItem[] = JSON.parse(itemsData || "[]");
+
   return (
     <Card className="shadow-none">
       <CardHeader className="w-full">
@@ -63,8 +109,8 @@ const OrderActiveCardItems = () => {
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <OrderActiveCardItem key={index} />
+          {items.map((item, index) => (
+            <OrderActiveCardItem productData={item} key={index} />
           ))}
         </div>
       </CardContent>
@@ -72,7 +118,26 @@ const OrderActiveCardItems = () => {
   );
 };
 
-const OrderSummary = () => {
+const getBgStatus = (status: string) => {
+  switch (status) {
+    case "Pending Payment":
+      return "bg-yellow-100 text-yellow-500";
+    case "Completed":
+      return "bg-green-100 text-green-500";
+    case "Cancelled":
+      return "bg-red-100 text-red-500";
+    default:
+      return "bg-yellow-100 text-yellow-500";
+  }
+};
+
+const OrderSummary = ({
+  checkoutDetails,
+  onFinishPayment,
+}: {
+  checkoutDetails?: any;
+  onFinishPayment: () => void;
+}) => {
   return (
     <Card className="w-full shadow-none">
       <CardHeader>
@@ -80,8 +145,12 @@ const OrderSummary = () => {
           <h3>Order Summary</h3>
           <Separator orientation="vertical" className="h-4" />
           <div className="flex justify-center items-center gap-2">
-            <span className="py-1 p-2 rounded-md bg-yellow-100 text-yellow-500 text-sm font-medium">
-              Pending Payment
+            <span
+              className={`py-1 p-2 rounded-md  text-sm font-medium ${getBgStatus(
+                checkoutDetails?.status
+              )}`}
+            >
+              {checkoutDetails?.status}
             </span>
           </div>
         </CardTitle>
@@ -91,21 +160,19 @@ const OrderSummary = () => {
           <div className="grid gap-2">
             <div className="flex items-center justify-between">
               <span>Subtotal</span>
-              <span>$99.00</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Shipping</span>
-              <span>$5.00</span>
+              <span>${checkoutDetails?.subtotal}</span>
             </div>
             <div className="flex items-center justify-between">
               <span>Tax</span>
-              <span>$8.92</span>
+              <span>${checkoutDetails?.tax}</span>
             </div>
           </div>
           <Separator />
           <div className="flex items-center justify-between font-bold">
             <span>Total</span>
-            <span>$112.92</span>
+            <span>
+              ${(checkoutDetails?.total + checkoutDetails?.tax).toFixed(2)}
+            </span>
           </div>
         </div>
       </CardContent>
@@ -117,14 +184,22 @@ const OrderSummary = () => {
           <Button variant={"outline"} className="border-primary text-primary">
             Cancel Order
           </Button>
-          <Button variant={"default"}>Finish Payment</Button>
+          <Button variant={"default"} onClick={() => onFinishPayment()}>
+            Finish Payment
+          </Button>
         </div>
       </CardFooter>
     </Card>
   );
 };
 
-const CurrentTableOrder = () => {
+const CurrentTableOrder = ({
+  tableData,
+  user,
+}: {
+  tableData?: RestaurantTableType;
+  user?: any;
+}) => {
   return (
     <Card>
       <CardHeader className="w-full">
@@ -144,7 +219,9 @@ const CurrentTableOrder = () => {
               Table Number:
             </span>
             <span className=" p-1 px-2 rounded-md bg-white text-primary text-sm font-medium">
-              7
+              {tableData?.restaurant_table?.find(
+                (table) => table.user_id === user?.id
+              )?.number || "-"}
             </span>
           </div>
           <TransformWrapper
@@ -182,11 +259,14 @@ const CurrentTableOrder = () => {
                     style={{ width: "740px", height: "100%" }}
                     className="grid grid-cols-4 gap-4 gap-y-20 "
                   >
-                    {Array.from({ length: 10 }).map((_, index) => (
+                    {tableData?.restaurant_table?.map((table, index) => (
                       <div
                         key={index}
-                        className={`relative w-32 h-32 ${
-                          index === 7 ? "bg-primary" : "bg-gray-200"
+                        onClick={(e) => e.stopPropagation()}
+                        className={`relative w-32 h-32 col-span-1 ${
+                          table.user_id === user?.id
+                            ? "bg-primary"
+                            : "bg-gray-200"
                         }  rounded-lg border cursor-pointer`}
                       >
                         <div
@@ -194,12 +274,16 @@ const CurrentTableOrder = () => {
                         >
                           <div
                             className={`w-1/2 h-4  ${
-                              index === 7 ? "bg-primary" : "bg-gray-200"
+                              table.user_id === user?.id
+                                ? "bg-primary"
+                                : "bg-gray-200"
                             } border rounded-md`}
                           ></div>
                           <div
                             className={`w-1/2 h-4  ${
-                              index === 7 ? "bg-primary" : "bg-gray-200"
+                              table.user_id === user?.id
+                                ? "bg-primary"
+                                : "bg-gray-200"
                             } border rounded-md`}
                           ></div>
                         </div>
@@ -208,12 +292,16 @@ const CurrentTableOrder = () => {
                         >
                           <div
                             className={`w-1/2 h-4   ${
-                              index === 7 ? "bg-primary" : "bg-gray-200"
+                              table.user_id === user?.id
+                                ? "bg-primary"
+                                : "bg-gray-200"
                             } border rounded-md`}
                           ></div>
                           <div
                             className={`w-1/2 h-4   ${
-                              index === 7 ? "bg-primary" : "bg-gray-200"
+                              table.user_id === user?.id
+                                ? "bg-primary"
+                                : "bg-gray-200"
                             } border rounded-md`}
                           ></div>
                         </div>
@@ -222,12 +310,16 @@ const CurrentTableOrder = () => {
                         >
                           <div
                             className={`w-4 h-1/2   ${
-                              index === 7 ? "bg-primary" : "bg-gray-200"
+                              table.user_id === user?.id
+                                ? "bg-primary"
+                                : "bg-gray-200"
                             } border rounded-md`}
                           ></div>
                           <div
                             className={`w-4 h-1/2   ${
-                              index === 7 ? "bg-primary" : "bg-gray-200"
+                              table.user_id === user?.id
+                                ? "bg-primary"
+                                : "bg-gray-200"
                             } border rounded-md`}
                           ></div>
                         </div>
@@ -236,17 +328,21 @@ const CurrentTableOrder = () => {
                         >
                           <div
                             className={`w-4 h-1/2   ${
-                              index === 7 ? "bg-primary" : "bg-gray-200"
+                              table.user_id === user?.id
+                                ? "bg-primary"
+                                : "bg-gray-200"
                             } border rounded-md`}
                           ></div>
                           <div
                             className={`w-4 h-1/2   ${
-                              index === 7 ? "bg-primary" : "bg-gray-200"
+                              table.user_id === user?.id
+                                ? "bg-primary"
+                                : "bg-gray-200"
                             } border rounded-md`}
                           ></div>
                         </div>
                         <div className="flex items-center justify-center h-full text-white font-bold">
-                          {index}
+                          {table.number}
                         </div>
                       </div>
                     ))}
@@ -261,9 +357,12 @@ const CurrentTableOrder = () => {
         <p className="font-medium text-sm text-gray-700">
           Change or edit your table
         </p>
-        <div className="flex justify-center items-center gap-2">
+        <Link
+          href={"order/table"}
+          className="flex justify-center items-center gap-2"
+        >
           <Button variant={"default"}>Manage Table </Button>
-        </div>
+        </Link>
       </CardFooter>
     </Card>
   );

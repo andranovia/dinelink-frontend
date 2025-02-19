@@ -1,7 +1,14 @@
+"use client";
+
 import { LoginForm } from "@/components/auth/loginForm";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import useAlertStore from "@/store/alert";
 import Image from "next/image";
+import { ImWarning } from "react-icons/im";
 
 export default function LoginPage() {
+  const { message, isVisible, type } = useAlertStore();
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2 p-3 rounded-md bg-slate-100">
       <div className="flex flex-col gap-4 p-6 md:p-10 bg-white rounded-lg">
@@ -33,6 +40,13 @@ export default function LoginPage() {
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
+      {isVisible && (
+        <Alert className="fixed w-fit bg-white right-6 top-6" variant={type}>
+          <ImWarning className="text-warning" />
+          <AlertTitle>{message?.title}</AlertTitle>
+          <AlertDescription>{message?.message}</AlertDescription>
+        </Alert>
+      )}
     </div>
   );
 }

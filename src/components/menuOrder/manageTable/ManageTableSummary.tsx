@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useRestaurant } from "@/hooks/services/useRestaurant";
+import Link from "next/link";
 import React from "react";
 import { MdSearchOff } from "react-icons/md";
 
@@ -81,15 +82,19 @@ const ManageTableSummary = () => {
               Your table is confirmed! make orders or view active orders.
             </p>
             <div className="flex justify-center items-center gap-3 flex-col w-full">
-              <Button
-                variant={"outline"}
-                className="border-primary text-primary w-full"
-              >
-                Make Order
-              </Button>
-              <Button variant={"default"} className="w-full">
-                View Active Order
-              </Button>
+              <Link href="/menu-order" className="w-full">
+                <Button
+                  variant={"outline"}
+                  className="border-primary text-primary w-full"
+                >
+                  Make Order
+                </Button>
+              </Link>
+              <Link href="/order/active" className="w-full">
+                <Button variant={"default"} className="w-full">
+                  View Active Order
+                </Button>
+              </Link>
             </div>
           </CardFooter>
         </>

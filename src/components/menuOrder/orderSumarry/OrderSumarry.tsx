@@ -25,6 +25,11 @@ const OrderSummary = ({ children }: { children: React.ReactNode }) => {
     params: { restaurantId: 1 },
   });
 
+  const SubTotal = cart?.cart
+    .map((item) => item.product.price * item.quantity)
+    .reduce((a, b) => a + b, 0);
+
+  const Tax = (SubTotal ? SubTotal * 0.1 : 0).toFixed(2);
   const router = useRouter();
 
   const pathname = usePathname();
@@ -36,15 +41,15 @@ const OrderSummary = ({ children }: { children: React.ReactNode }) => {
         amount: item.quantity,
         item_price: item.product.price,
       })),
+      table_id: restaurantTableUser?.restaurant_table.map((table) => table.id),
+      tax: Number(Tax),
+      items: cart?.cart.map((item) => item) ?? [],
+      restaurant_id: 1,
+      subtotal: SubTotal ? SubTotal : 0,
+      total: SubTotal ? SubTotal : 0 + Number(Tax),
       current_url: pathname,
     },
   });
-
-  const SubTotal = cart?.cart
-    .map((item) => item.product.price * item.quantity)
-    .reduce((a, b) => a + b, 0);
-
-  const Tax = (SubTotal ? SubTotal * 0.1 : 0).toFixed(2);
 
   return (
     <div className="flex justify-center gap-3 p-3 relative">

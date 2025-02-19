@@ -2,12 +2,14 @@ import { FormModal } from "@/components/modals/FormModal";
 import { useRestaurant } from "@/hooks/services/useRestaurant";
 import useAuthStore from "@/store/authStore";
 import { RestaurantTable } from "@/types/restaurant";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
 
 const TableItem = ({ table }: { table: RestaurantTable }) => {
   const { user } = useAuthStore();
   const [tableData, setTableData] = React.useState<RestaurantTable>(table);
+  const queryClient = useQueryClient();
   const { editUserRestaurantTable } = useRestaurant({
     params: { restaurantId: 1 },
     editUserRestaurantTablePayload: {
@@ -145,6 +147,7 @@ const TableItem = ({ table }: { table: RestaurantTable }) => {
         });
 
         editUserRestaurantTable();
+        queryClient.invalidateQueries({ queryKey: ["restaurantTable"] });
       }}
       formData={{
         title: "Select Table",

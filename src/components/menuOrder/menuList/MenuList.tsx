@@ -15,6 +15,7 @@ const MenuList = () => {
   } = useRestaurant({
     params: { restaurantId: 1 },
   });
+
   return (
     <div className={`grid grid-cols-4 w-full gap-3 `}>
       {isProductsLoading || isFilteredProductsLoading ? (
@@ -37,7 +38,7 @@ const MenuList = () => {
           <div className="bg-slate-100 p-4 rounded-full">
             <PiEmpty size={25} />
           </div>
-          <span className="text-gray-500 text-sm">Your cart is empty..</span>
+          <span className="text-gray-500 text-sm">Product not found..</span>
         </div>
       )}
     </div>

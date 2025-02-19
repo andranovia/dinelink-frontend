@@ -42,8 +42,11 @@ export const apiRequest = async ({
     if (callbackFunction) {
       callbackFunction(response);
     }
-    if (response.status === 200 || response.status === 401) {
+    if (response.status === 200 || response.status === 201) {
       return response.data;
+    } else if (response.status === 401) {
+      localStorage.removeItem("token");
+      throw new Error(errorMsg);
     }
   } catch (error) {
     console.error(errorMsg, error);

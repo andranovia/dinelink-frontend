@@ -26,7 +26,8 @@ const ManageTableSummary = () => {
 
   return (
     <Card className="w-full shadow-none col-span-2 flex flex-col h-full">
-      {restaurantTableUser?.restaurant_table ? (
+      {restaurantTableUser &&
+      restaurantTableUser?.restaurant_table.length > 0 ? (
         <>
           <CardHeader>
             <CardTitle className="flex flex-row items-center gap-4">

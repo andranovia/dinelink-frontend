@@ -39,7 +39,7 @@ const ManageTable = () => {
               </div>
             </div>
             <TransformComponent
-              wrapperClass="bg-white overflow-hidden !w-full !h-full"
+              wrapperClass="bg-slate-50 overflow-hidden !w-full !h-full"
               contentClass="!p-20"
             >
               <div

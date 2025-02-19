@@ -34,7 +34,7 @@ const useCheckout = ({ checkoutData, successId }: CheckoutProps) => {
         },
         errorMsg: "Get checkout detail failed, something is wrong.",
       }),
-    enabled: !!successId,
+    enabled: !!localStorage.getItem("token") && !!successId,
   });
 
   const { mutateAsync: makeCheckout } = useMutation({

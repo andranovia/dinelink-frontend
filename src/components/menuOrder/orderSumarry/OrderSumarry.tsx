@@ -49,12 +49,12 @@ const OrderSummary = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex justify-center gap-3 p-3 relative">
       {children}
-      <Card className="w-[35%] min-h-[calc(100vh-10rem)] h-fit sticky top-[5rem]">
+      <Card className="w-[35%] min-h-[calc(100vh-11rem)] h-fit sticky top-[5rem]">
         <CardHeader className="p-4">
           <CardTitle>Order Summary</CardTitle>
         </CardHeader>
         <CardContent className=" px-3 pt-0">
-          <Card className="h-[17.2rem] overflow-y-auto scrollbar scrollbar-thumb-primary scrollbar-w-[5px] scrollbar-thumb-rounded-full scrollbar-track-gray-300">
+          <Card className="h-[16.5rem] overflow-y-auto scrollbar scrollbar-thumb-primary scrollbar-w-[5px] scrollbar-thumb-rounded-full scrollbar-track-gray-300">
             <CardContent
               className={`grid gap-4 py-3 px-3  ${
                 isCartLoading || (cart && cart?.cart.length > 0) ? "" : "h-full"
@@ -101,32 +101,31 @@ const OrderSummary = ({ children }: { children: React.ReactNode }) => {
           </div>
         </CardContent>
         <CardFooter>
-          {cart && cart?.cart.length > 0 ? (
-            restaurantTableUser?.restaurant_table ? (
-              <ConfirmModal
-                iconImage={<MdOutlinePayments size={25} />}
-                modalTrigger={
-                  <Button className="w-full bg-primary">Confirm Payment</Button>
-                }
-                buttonLabel="Confirm"
-                onSubmit={makeCheckout}
-                title="Checkout Confirmation"
-                description="You will be redirected to the payment page."
-              />
-            ) : (
-              <ConfirmModal
-                iconImage={<BiTable size={25} />}
-                modalTrigger={
-                  <Button className="w-full bg-primary">Confirm Payment</Button>
-                }
-                buttonLabel="Confirm"
-                onSubmit={() => {
-                  router.push("/order/table");
-                }}
-                title="Checkout Confirmation"
-                description="Please select your table to proceed."
-              />
-            )
+          {restaurantTableUser &&
+          restaurantTableUser?.restaurant_table.length < 1 ? (
+            <ConfirmModal
+              iconImage={<BiTable size={25} />}
+              modalTrigger={
+                <Button className="w-full bg-primary">Confirm Payment</Button>
+              }
+              buttonLabel="Confirm"
+              onSubmit={() => {
+                router.push("/order/table");
+              }}
+              title="Checkout Confirmation"
+              description="Please select your table to proceed."
+            />
+          ) : cart && cart?.cart.length > 0 ? (
+            <ConfirmModal
+              iconImage={<MdOutlinePayments size={25} />}
+              modalTrigger={
+                <Button className="w-full bg-primary">Confirm Payment</Button>
+              }
+              buttonLabel="Confirm"
+              onSubmit={makeCheckout}
+              title="Checkout Confirmation"
+              description="You will be redirected to the payment page."
+            />
           ) : (
             <ConfirmModal
               iconImage={<PiWarningCircle size={25} />}

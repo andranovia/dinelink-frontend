@@ -1,7 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "../functions/apiRequest";
-import { ProductType, RestaurantTableType } from "@/types/restaurant";
+import {
+  ProductCategoryType,
+  ProductType,
+  RestaurantTableType,
+} from "@/types/restaurant";
 import useAuth from "./useAuth";
+import { useProductStore } from "@/store/productStore";
 
 export function useRestaurant({
   params,
@@ -20,6 +25,7 @@ export function useRestaurant({
 }) {
   const { userData } = useAuth({});
   const queryClient = useQueryClient();
+  const { productsCategoryFilter } = useProductStore();
 
   const { data: products, isLoading: isProductsLoading } = useQuery<
     ProductType[]
@@ -36,6 +42,24 @@ export function useRestaurant({
       }),
   });
 
+  const { data: filteredProducts, isLoading: isFilteredProductsLoading } =
+    useQuery<ProductType[]>({
+      queryKey: ["filteredProducts"],
+      queryFn: () =>
+        apiRequest({
+          type: "products/filtered",
+          errorMsg: "Get filtered products failed, something is wrong.",
+          payload: {
+            params: {
+              restaurant_id: params.restaurantId,
+              category_id: productsCategoryFilter,
+            },
+          },
+          method: "get",
+        }),
+      enabled: !!localStorage.getItem("token") && !!productsCategoryFilter,
+    });
+
   const { mutateAsync: editUserRestaurantTable } = useMutation({
     mutationFn: () =>
       apiRequest({
@@ -48,7 +72,7 @@ export function useRestaurant({
         },
         method: "put",
       }),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["restaurantTableUser"] });
     },
   });
@@ -69,7 +93,7 @@ export function useRestaurant({
           method: "get",
         }),
 
-      enabled: !!userData?.id,
+      enabled: !!localStorage.getItem("token") && !!userData?.id,
     });
 
   const { data: restaurantTable, isLoading: isRestaurantTableLoading } =
@@ -86,10 +110,30 @@ export function useRestaurant({
         }),
     });
 
+  const { data: productCategories, isLoading: isProductCategoriesLoading } =
+    useQuery<ProductCategoryType[]>({
+      queryKey: ["productCategories"],
+      queryFn: () =>
+        apiRequest({
+          type: "categories",
+          errorMsg: "Get restaurant table failed, something is wrong.",
+          payload: {
+            params: { restaurantId: params.restaurantId },
+          },
+          method: "get",
+        }),
+
+      enabled: !!localStorage.getItem("token"),
+    });
+
   return {
     products,
     isProductsLoading,
+    filteredProducts,
+    isFilteredProductsLoading,
     restaurantTable,
+    productCategories,
+    isProductCategoriesLoading,
     isRestaurantTableLoading,
     restaurantTableUser,
     isRestaurantTableUserLoading,

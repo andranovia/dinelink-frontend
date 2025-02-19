@@ -25,3 +25,12 @@ export type RestaurantTable = {
   created_at: Date;
   updated_at: Date;
 };
+
+export type ProductCategoryType = {
+  id: number;
+  name: string;
+  pivot: {
+    product_id: number;
+    category_id: number;
+  };
+};

@@ -45,7 +45,7 @@ export function useCart({
           setCart(response.data.cart);
         },
       }),
-    enabled: !!user?.id,
+    enabled: !!localStorage.getItem("token") && !!user?.id,
   });
 
   const { mutateAsync: addCartItem } = useMutation({

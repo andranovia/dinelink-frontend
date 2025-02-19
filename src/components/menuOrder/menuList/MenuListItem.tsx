@@ -55,7 +55,7 @@ const MenuListItem = ({
   };
 
   return (
-    <Card className={cn("w-auto ", className)} {...props}>
+    <Card className={cn("w-auto h-fit ", className)} {...props}>
       <CardHeader className="rounded-lg p-3 pb-0 relative">
         <Image
           src={productData?.image || "https://via.placeholder.com/150"}

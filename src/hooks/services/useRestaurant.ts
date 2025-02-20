@@ -22,6 +22,7 @@ export function useRestaurant({
     seats: number;
     is_active: string;
   };
+  restaurantCode: string;
 }) {
   const { userData } = useAuth({});
   const queryClient = useQueryClient();

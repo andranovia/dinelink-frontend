@@ -53,7 +53,11 @@ const useAuth = ({
     onSuccess: (data) => {
       login(data.user, data.token);
       queryClient.invalidateQueries({ queryKey: ["auth"] });
-      router.push("/menu-order");
+      if (data.user.type === "owner") {
+        window.location.href = `http://localhost:3000/verification/${data.token}`;
+      } else if (data.user.type === "customer") {
+        router.push("/restaurant");
+      }
       showAlert(
         {
           title: "Login Success",

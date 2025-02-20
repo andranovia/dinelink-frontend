@@ -12,6 +12,21 @@ export type RestaurantTableType = {
   restaurant_table: RestaurantTable[];
 };
 
+export type RestaurantType = {
+  id: number;
+  name: string;
+  user_id: number;
+  email: string;
+  img: string;
+  code: string;
+  password: string;
+  phone_number: string;
+  rating: number;
+  address: string;
+  logo: string;
+  open: number;
+};
+
 export type RestaurantTable = {
   id: number;
   floor: number;

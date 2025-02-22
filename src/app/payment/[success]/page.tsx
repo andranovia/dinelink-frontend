@@ -6,12 +6,26 @@ import { Separator } from "@/components/ui/separator";
 import useCheckout from "@/hooks/services/usePayment";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
 import { BsCheck2Circle } from "react-icons/bs";
 const Page = ({ params }: { params: Promise<{ success: string }> }) => {
-  const { checkoutDetails } = useCheckout({
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get("orderId");
+
+  const { checkoutDetails, changeTransactionStatus } = useCheckout({
     successId: React.use(params).success,
+    changeStatus: {
+      orderId: orderId,
+      status: "Finished",
+    },
   });
+
+  useEffect(() => {
+    if (checkoutDetails && orderId) {
+      updateStatus();
+    }
+  }, [checkoutDetails, orderId, changeTransactionStatus]);
 
   return (
     <div className="flex justify-center items-center py-6 flex-col gap-6">

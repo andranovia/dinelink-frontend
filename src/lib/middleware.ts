@@ -36,9 +36,13 @@ export default function ProtectedRoute({
       isAuthenticated &&
       (pathname === "/login" || pathname === "/register")
     ) {
-      router.push(`/menu-order`);
+      if (userData?.type === "owner") {
+        window.location.href = `http://localhost:3001/verification?token=${token}`;
+      } else if (token) {
+        router.push(`/menu-order`);
+      }
     }
-  }, [isAuthenticated, router, pathname, isPublic, userData]);
+  }, [isAuthenticated, router, pathname, isPublic, userData, token]);
 
   return children;
 }

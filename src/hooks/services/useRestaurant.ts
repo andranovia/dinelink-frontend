@@ -22,7 +22,7 @@ export function useRestaurant({
     seats: number;
     is_active: string;
   };
-  restaurantCode: string;
+  restaurantCode?: string;
 }) {
   const { userData } = useAuth({});
   const queryClient = useQueryClient();
@@ -64,7 +64,7 @@ export function useRestaurant({
   const { mutateAsync: editUserRestaurantTable } = useMutation({
     mutationFn: () =>
       apiRequest({
-        type: "table/user",
+        type: "tables/user",
         errorMsg: "Update user restaurant table failed, something is wrong.",
         payload: {
           user_id: userData?.id,
@@ -83,7 +83,7 @@ export function useRestaurant({
       queryKey: ["restaurantTableUser"],
       queryFn: () =>
         apiRequest({
-          type: "table/user",
+          type: "tables/user",
           errorMsg: "Get user restaurant table failed, something is wrong.",
           payload: {
             params: {
@@ -102,7 +102,7 @@ export function useRestaurant({
       queryKey: ["restaurantTable"],
       queryFn: () =>
         apiRequest({
-          type: "table",
+          type: "tables",
           errorMsg: "Get restaurant table failed, something is wrong.",
           payload: {
             params: { restaurant_id: params.restaurantId },

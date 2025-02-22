@@ -56,6 +56,7 @@ const Page = () => {
         (checkoutDetails ? checkoutDetails?.total : 0) +
         Number(checkoutDetails?.tax),
       current_url: pathname,
+      order_id: checkoutDetails?.order_id,
     },
   });
 

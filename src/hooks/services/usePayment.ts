@@ -15,8 +15,13 @@ export type CheckoutProps = {
     subtotal?: number;
     tax: number;
     current_url: string;
+    order_id?: string;
   };
   successId?: string;
+  changeStatus?: {
+    orderId: string | null;
+    status: string;
+  };
 };
 
 type PurchasedProducts = {
@@ -26,7 +31,11 @@ type PurchasedProducts = {
   item_price: number;
 };
 
-const useCheckout = ({ checkoutData, successId }: CheckoutProps) => {
+const useCheckout = ({
+  checkoutData,
+  successId,
+  changeStatus,
+}: CheckoutProps) => {
   const router = useRouter();
   const { userData } = useAuth({});
 
@@ -34,7 +43,7 @@ const useCheckout = ({ checkoutData, successId }: CheckoutProps) => {
     queryKey: ["checkoutDetail"],
     queryFn: () =>
       apiRequest({
-        type: "checkout",
+        type: "checkouts",
         method: "get",
         payload: {
           params: {
@@ -46,16 +55,30 @@ const useCheckout = ({ checkoutData, successId }: CheckoutProps) => {
     enabled: !!localStorage.getItem("token") && !!successId,
   });
 
+  const { mutateAsync: changeTransactionStatus } = useMutation({
+    mutationFn: () =>
+      apiRequest({
+        type: "transactions/status",
+        method: "post",
+        payload: {
+          orderId: changeStatus?.orderId,
+          status: changeStatus?.status,
+        },
+        errorMsg: "Submit checkout failed, something is wrong.",
+      }),
+  });
+
   const { mutateAsync: makeCheckout } = useMutation({
     mutationFn: () =>
       apiRequest({
-        type: "checkout",
+        type: "checkouts",
         method: "post",
         payload: {
           ...checkoutData,
           items: JSON.stringify(checkoutData?.items),
           table_id: JSON.stringify(checkoutData?.table_id),
           user_id: userData?.id,
+          order_id: checkoutData?.order_id,
         },
         errorMsg: "Submit checkout failed, something is wrong.",
       }),
@@ -70,6 +93,7 @@ const useCheckout = ({ checkoutData, successId }: CheckoutProps) => {
 
   return {
     makeCheckout,
+    changeTransactionStatus,
     checkoutDetails,
   };
 };

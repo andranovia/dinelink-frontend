@@ -145,7 +145,6 @@ const TableItem = ({ table }: { table: RestaurantTable }) => {
           notes: values.notes,
           persons: values.person,
         });
-
         editUserRestaurantTable();
         queryClient.invalidateQueries({ queryKey: ["restaurantTable"] });
       }}

@@ -10,7 +10,7 @@ const useOrder = ({ params }: { params: { restaurant_id: number } }) => {
     queryKey: ["orderDetail"],
     queryFn: () =>
       apiRequest({
-        type: "transaction",
+        type: "transactions",
         method: "get",
         payload: {
           params: {

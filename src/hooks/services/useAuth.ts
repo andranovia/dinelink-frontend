@@ -23,6 +23,7 @@ const useAuth = ({
     name: string;
     email: string;
     message: string;
+    type: string;
   }>({
     queryKey: ["user"],
     queryFn: () =>
@@ -54,7 +55,7 @@ const useAuth = ({
       login(data.user, data.token);
       queryClient.invalidateQueries({ queryKey: ["auth"] });
       if (data.user.type === "owner") {
-        window.location.href = `http://localhost:3000/verification/${data.token}`;
+        window.location.href = `http://localhost:3001/verification?token=${data.token}`;
       } else if (data.user.type === "customer") {
         router.push("/restaurant");
       }

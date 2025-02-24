@@ -32,10 +32,16 @@ const OrderMenuItem = ({ cartItemData }: { cartItemData: CartItem }) => {
     }
   };
 
+  const fullPath = cartItemData.product.image;
+  const fileName = fullPath ? fullPath.split(/[\\/]/).pop() : "";
+
   return (
     <div className="flex gap-3">
       <Image
-        src={cartItemData.product.image || "https://via.placeholder.com/150"}
+        src={
+          "http://127.0.0.1:8000/storage/uploads/" + fileName ||
+          "https://via.placeholder.com/150"
+        }
         alt={cartItemData.product.name}
         width={80}
         height={80}

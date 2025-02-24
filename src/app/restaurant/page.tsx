@@ -4,14 +4,36 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useRestaurant } from "@/hooks/services/useRestaurant";
 import { cn } from "@/lib/utils";
 import { Field, Form, Formik } from "formik";
 import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { BsCheck2Circle } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
 import { MdInput } from "react-icons/md";
+
 const Page = () => {
+  const [restaurantCodes, setRestaurantCodes] = useState<string | undefined>(
+    undefined
+  );
+  const { restaurantByCode } = useRestaurant({
+    restaurantCode: restaurantCodes,
+  });
+
+  useEffect(() => {
+    localStorage.removeItem("restaurantCode");
+  }, []);
+
+  const code = localStorage.getItem("restaurantCode");
+
+  useEffect(() => {
+    if (restaurantByCode) {
+      localStorage.setItem("restaurantCode", restaurantByCode.restaurant.code);
+      setTimeout(() => {
+        window.location.href = `/menu-order`;
+      }, 2000);
+    }
+  }, [restaurantByCode, code]);
+
   return (
     <div className="flex justify-center items-center py-6 flex-col gap-6">
       <div className="flex justify-center gap-2 md:justify-start">
@@ -39,22 +61,22 @@ const Page = () => {
                 initialValues={{ code: "" }}
                 onSubmit={(values, { setSubmitting }) => {
                   setSubmitting(false);
+                  setRestaurantCodes(values.code.toLowerCase());
                 }}
               >
                 {({ isSubmitting }) => (
                   <Form className={cn("flex flex-col gap-6")}>
                     <Field id="code" name="code" type="code" as={Input} />
+
+                    <Button variant={"default"} className="w-full">
+                      Confirm
+                    </Button>
                   </Form>
                 )}
               </Formik>
             </CardContent>
           </Card>
         </div>
-        <Link href="/menu-order" className="flex items-center gap-2">
-          <Button variant={"default"} className="!p-6">
-            Confirm
-          </Button>
-        </Link>
       </div>
     </div>
   );

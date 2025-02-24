@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
       "plus.unsplash.com",
       "images.unsplash.com",
       "via.placeholder.com",
+      "127.0.0.1",
     ],
   },
 };

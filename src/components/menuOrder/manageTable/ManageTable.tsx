@@ -5,11 +5,11 @@ import React from "react";
 import { BiMinus, BiPlus, BiReset } from "react-icons/bi";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import TableItem from "./TableItem";
+import { useTableStore } from "@/store/tableStore";
 
 const ManageTable = () => {
-  const { restaurantTable } = useRestaurant({
-    params: { restaurantId: 1 },
-  });
+  const { restaurantTable } = useRestaurant({});
+  const { tablesCategoryFilter } = useTableStore();
 
   return (
     <div className="h-[34rem] w-full relative overflow-hidden border rounded-xl bg-slate-100 col-span-6">
@@ -46,9 +46,11 @@ const ManageTable = () => {
                 style={{ width: "100%", height: "100%" }}
                 className="grid grid-cols-4 gap-20  gap-y-20 "
               >
-                {restaurantTable?.restaurant_table.map((table, index) => (
-                  <TableItem key={index} table={table} />
-                ))}
+                {restaurantTable?.restaurant_table
+                  .filter((table) => table.floor_id === tablesCategoryFilter)
+                  .map((table, index) => (
+                    <TableItem key={index} table={table} />
+                  ))}
               </div>
             </TransformComponent>
           </>

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -5,9 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { useRestaurantRating } from "@/hooks/services/useRestaurantRating";
 import React from "react";
-import { BsStarFill } from "react-icons/bs";
+import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { HiArrowTrendingUp } from "react-icons/hi2";
 
 const getBarColor = (rating: number) => {
@@ -27,13 +29,48 @@ const getBarColor = (rating: number) => {
   }
 };
 
-const getBarWidth = (rating: number) => {
-  const totalReviews = 10;
-  const widthPercentage = (rating / totalReviews) * 100;
-  return `${widthPercentage}%`;
+const RatingStars = ({ averageRating }) => {
+  if (!averageRating) return null;
+  const clampedRating = Math.min(Math.max(averageRating, 0), 5);
+
+  const fullStars = Math.floor(clampedRating);
+  const hasHalfStar = averageRating - fullStars >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+  return (
+    <div className="flex gap-2 items-center font-medium py-0.5 text-yellow-400 text-sm px-3 rounded-md">
+      {[...Array(fullStars)].map((_, i) => (
+        <BsStarFill key={`full-${i}`} size={20} />
+      ))}
+
+      {hasHalfStar && <BsStarHalf key="half" size={20} />}
+
+      {[...Array(emptyStars)].map((_, i) => (
+        <BsStar key={`empty-${i}`} size={20} />
+      ))}
+    </div>
+  );
 };
 
 const RestaurantReviewsSummary = () => {
+  const { restaurantRating } = useRestaurantRating({});
+  const ratings = restaurantRating?.rating.map((item) => item.rating) || [];
+  const averageRating =
+    ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
+
+  const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+  restaurantRating?.rating.forEach((item) => {
+    if (item.rating >= 1 && item.rating <= 5) {
+      ratingCounts[item.rating]++;
+    }
+  });
+
+  const totalRatings = restaurantRating?.rating.length;
+
+  const getBarWidth = (star) => {
+    return `${(ratingCounts[star] / totalRatings) * 100}%`;
+  };
+
   return (
     <>
       <Card className="border-none !border-r-2">
@@ -43,7 +80,9 @@ const RestaurantReviewsSummary = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="flex items-center gap-4">
-          <CardTitle className="text-3xl">10.0k</CardTitle>
+          <CardTitle className="text-3xl">
+            {restaurantRating?.rating.length}
+          </CardTitle>
           <div className=" flex gap-2 items-center font-medium py-0.5 bg-green-100 text-green-700 text-sm px-3 rounded-md">
             <span>21% </span>
             <HiArrowTrendingUp />
@@ -60,33 +99,32 @@ const RestaurantReviewsSummary = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="flex items-center gap-4">
-          <CardTitle className="text-3xl">4.5</CardTitle>
-          <div className=" flex gap-2 items-center font-medium py-0.5 text-yellow-400 text-sm px-3 rounded-md">
-            {[...Array(5)].map((_, i) => (
-              <BsStarFill key={i} size={20} />
-            ))}
-          </div>
+          <CardTitle className="text-3xl">{averageRating.toFixed(1)}</CardTitle>
+          <RatingStars averageRating={averageRating} />
         </CardContent>
         <CardFooter className="text-gray-500">
           Average rating on this year
         </CardFooter>
       </Card>
-      <Card className="border-none  ">
-        <CardContent className=" pt-6">
-          {[...Array(5)].map((_, i) => (
-            <div className="flex items-center gap-2" key={4 - i}>
-              <div className="flex items-center gap-1">
-                <BsStarFill size={10} className="text-gray-400" />
-                <span>{5 - i}</span>
+      <Card className="border-none w-full ">
+        <CardContent className=" py-3">
+          {[...Array(5)].map((_, i) => {
+            const star = 5 - i;
+            return (
+              <div className="flex items-center gap-2" key={star}>
+                <div className="flex items-center gap-1">
+                  <BsStarFill size={10} className="text-gray-400" />
+                  <span>{star}</span>
+                </div>
+                <div
+                  style={{
+                    width: getBarWidth(star),
+                  }}
+                  className={`h-2 rounded-lg ${getBarColor(star)}`}
+                ></div>
               </div>
-              <div
-                style={{
-                  width: getBarWidth(5 - i),
-                }}
-                className={cn(` h-2  rounded-lg ${getBarColor(5 - i)}`)}
-              ></div>
-            </div>
-          ))}
+            );
+          })}
         </CardContent>
       </Card>
     </>

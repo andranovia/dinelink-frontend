@@ -1,3 +1,6 @@
+import { User } from "./auth";
+import { RestaurantType } from "./restaurant";
+
 export type TransactionType = {
   id: number;
   items: string;
@@ -10,4 +13,6 @@ export type TransactionType = {
   tax: number;
   created_at: string;
   updated_at: string;
+  user: User;
+  restaurant: RestaurantType;
 };

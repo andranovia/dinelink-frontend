@@ -43,7 +43,7 @@ const useCheckout = ({
     queryKey: ["checkoutDetail"],
     queryFn: () =>
       apiRequest({
-        type: "checkouts",
+        type: "checkout",
         method: "get",
         payload: {
           params: {
@@ -71,7 +71,7 @@ const useCheckout = ({
   const { mutateAsync: makeCheckout } = useMutation({
     mutationFn: () =>
       apiRequest({
-        type: "checkouts",
+        type: "checkout",
         method: "post",
         payload: {
           ...checkoutData,

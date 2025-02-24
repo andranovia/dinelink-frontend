@@ -126,6 +126,16 @@ export function RegisterForm({
                     type="button"
                     className="!ml-0 py-6 w-full"
                     onClick={() => {
+                      setFieldValue("type", "cashier");
+                      submitForm();
+                    }}
+                  >
+                    Professional
+                  </Button>
+                  <Button
+                    type="button"
+                    className="!ml-0 py-6 w-full"
+                    onClick={() => {
                       setFieldValue("type", "customer");
                       submitForm();
                     }}

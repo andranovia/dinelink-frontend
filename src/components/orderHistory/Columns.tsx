@@ -5,39 +5,15 @@ import {
   HiOutlineArrowRightCircle,
 } from "react-icons/hi2";
 import moment from "moment";
-import { RiMore2Fill } from "react-icons/ri";
-import { Button } from "@/components/ui/button";
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Checkbox } from "../ui/checkbox";
-import { Toast } from "../toast";
 import { Badge } from "../ui/badge";
 import { moveColumnsDown, moveColumnsUp } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { BiCheck, BiCross } from "react-icons/bi";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { BiCheck, BiUser } from "react-icons/bi";
 import { MdIncompleteCircle, MdPending } from "react-icons/md";
-
-export interface Employee {
-  id: string;
-  restaurantProfilePhoto: string;
-  restaurantName: string;
-  amount: {
-    price: number;
-    currency: string;
-  };
-  paymentMethod: string;
-  products: string[];
-  date: string;
-  status: "Success" | "Incomplete" | "Pending" | "Failed";
-}
+import { TransactionType } from "@/types/transaction";
 
 const getBadgeIcon = (status: string) => {
   switch (status) {
@@ -54,7 +30,7 @@ const getBadgeIcon = (status: string) => {
   }
 };
 
-export const columns: ColumnDef<Employee>[] = [
+export const columns: ColumnDef<TransactionType>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -89,14 +65,16 @@ export const columns: ColumnDef<Employee>[] = [
     },
 
     cell: ({ row }) => {
-      const { restaurantProfilePhoto, restaurantName } = row.original;
       return (
         <div className="flex flex-row gap-4 items-center">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={restaurantProfilePhoto} alt="@shadcn" />
-            <AvatarFallback>SN</AvatarFallback>
+            <AvatarFallback>
+              <BiUser />
+            </AvatarFallback>
           </Avatar>
-          <div className="font-medium text-left ">{restaurantName}</div>
+          <div className="font-medium text-left ">
+            {row.original.restaurant.name}
+          </div>
         </div>
       );
     },
@@ -137,11 +115,8 @@ export const columns: ColumnDef<Employee>[] = [
       );
     },
     cell: ({ row }) => {
-      const { amount } = row.original;
       return (
-        <div className="font-medium text-left">
-          {amount.price}&nbsp;{amount.currency}
-        </div>
+        <div className="font-medium text-left">{row.original.total}&nbsp;$</div>
       );
     },
     footer: ({ column, table }) => {
@@ -181,9 +156,8 @@ export const columns: ColumnDef<Employee>[] = [
       );
     },
     cell: ({ row }) => {
-      const { status } = row.original;
       const colors = {
-        Success: "bg-green-200 text-green-700",
+        Finished: "bg-green-200 text-green-700",
         Pending: "bg-yellow-200 text-yellow-700",
         Incomplete: "bg-gray-200 text-gray-700",
         Failed: "bg-red-200 text-red-700",
@@ -192,11 +166,13 @@ export const columns: ColumnDef<Employee>[] = [
       return (
         <Badge
           variant="outline"
-          className={`${colors[status]} border-0 font-semibold capitalize justify-center w-3/4 py-1 rounded-full`}
+          className={`${
+            colors[row.original.status]
+          } border-0 font-semibold capitalize justify-center w-3/4 py-1 rounded-full`}
         >
           <div className="w-full items-center  flex justify-between flex-row">
-            {getBadgeIcon(status.toString())}
-            <span>{status}</span>
+            {getBadgeIcon(row.original.status.toString())}
+            <span>{row.original.status}</span>
           </div>
         </Badge>
       );
@@ -236,6 +212,9 @@ export const columns: ColumnDef<Employee>[] = [
         </div>
       );
     },
+    cell: () => {
+      return <div className="font-medium text-left">Stripe</div>;
+    },
     footer: ({ column, table }) => {
       return (
         <div className="flex flex-row gap-4">
@@ -273,13 +252,18 @@ export const columns: ColumnDef<Employee>[] = [
       );
     },
     cell: ({ row }) => {
-      const products = row.original.products;
-      if (products.length > 2) {
-        return `${products.slice(0, 2).join(", ")} and ${
-          products.length - 2
+      const products = JSON.parse(row.original.items);
+
+      console.log(products);
+
+      const productNames = products.map((item) => item.product.name);
+
+      if (productNames.length > 2) {
+        return `${productNames.slice(0, 2).join(", ")} and ${
+          productNames.length - 2
         } more...`;
       }
-      return products.join(", ");
+      return productNames.join(", ");
     },
     footer: ({ column, table }) => {
       return (
@@ -319,7 +303,7 @@ export const columns: ColumnDef<Employee>[] = [
     },
     cell: ({ row }) => (
       <div className="">
-        {moment(row.original.date).format("MMM DD, YYYY hh:mm A")}
+        {moment(row.original.created_at).format("MMM DD, YYYY hh:mm A")}
       </div>
     ),
     footer: ({ column, table }) => {
@@ -348,36 +332,4 @@ export const columns: ColumnDef<Employee>[] = [
       return value.includes(row.getValue(id));
     },
   },
-
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const employee = row.original;
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-8 h-8 p-0">
-              <RiMore2Fill></RiMore2Fill>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(employee.id)}
-            >
-              <Toast
-                buttonText={"Copy employee id"}
-                description={"ID copied to clipboard"}
-              ></Toast>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View employee</DropdownMenuItem>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-  // ...
 ];

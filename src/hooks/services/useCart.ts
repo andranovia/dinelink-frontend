@@ -33,7 +33,7 @@ export function useCart({
     queryKey: ["cart"],
     queryFn: () =>
       apiRequest({
-        type: "carts",
+        type: "cart",
         errorMsg: "Get cart failed, something is wrong.",
         payload: {
           params: {
@@ -51,7 +51,7 @@ export function useCart({
   const { mutateAsync: addCartItem } = useMutation({
     mutationFn: () =>
       apiRequest({
-        type: "carts",
+        type: "cart",
         errorMsg: "Add to cart failed, something is wrong.",
         payload: { ...addToCartPayload, user_id: user?.id },
         method: "post",
@@ -65,7 +65,7 @@ export function useCart({
   const { mutateAsync: editCartItem } = useMutation({
     mutationFn: () =>
       apiRequest({
-        type: "carts",
+        type: "cart",
         errorMsg: "Edit cart item failed, something is wrong.",
         payload: { ...EditCartItemPayload, user_id: user?.id },
         method: "put",
@@ -79,7 +79,7 @@ export function useCart({
   const { mutateAsync: deleteCartItem } = useMutation({
     mutationFn: () =>
       apiRequest({
-        type: "carts",
+        type: "cart",
         errorMsg: "Delete cart item failed, something is wrong.",
         payload: {
           params: {

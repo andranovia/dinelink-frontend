@@ -1,20 +1,30 @@
+import { ConfirmModal } from "@/components/modals/ConfirmModal";
 import { FormModal } from "@/components/modals/FormModal";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useRestaurant } from "@/hooks/services/useRestaurant";
 import useAuthStore from "@/store/authStore";
 import { RestaurantTable } from "@/types/restaurant";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
+import { MdCancel } from "react-icons/md";
 
 const TableItem = ({ table }: { table: RestaurantTable }) => {
   const { user } = useAuthStore();
   const [tableData, setTableData] = React.useState<RestaurantTable>(table);
   const queryClient = useQueryClient();
-  const { editUserRestaurantTable } = useRestaurant({
-    params: { restaurantId: 1 },
+  const { editUserRestaurantTable, cancelUserTable } = useRestaurant({
+    cancelUserTablePayload: {
+      table_id: table.id,
+    },
     editUserRestaurantTablePayload: {
       id: tableData.id,
-      floor: tableData.floor,
+      floor_id: tableData.floor_id,
       notes: tableData.notes,
       persons: tableData.persons,
       number: tableData.number,
@@ -115,7 +125,26 @@ const TableItem = ({ table }: { table: RestaurantTable }) => {
     );
   };
 
-  return (
+  return table.user_id === user?.id ? (
+    <ConfirmModal
+      iconImage={<MdCancel size={25} />}
+      modalTrigger={tables()}
+      buttonLabel="Confirm"
+      onSubmit={cancelUserTable}
+      title="Cancel Select Table"
+      description="Are you sure you want to cancel the table?"
+    />
+  ) : table.user_id !== user?.id && table.user_id !== null ? (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip>
+        <TooltipTrigger asChild>{tables()}</TooltipTrigger>
+
+        <TooltipContent className="bg-white mb-8 flex items-center gap-4 shadow-lg">
+          <p className="text-primary">This table is reserved.</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  ) : (
     <FormModal
       buttonLabel="Select Table"
       modalTrigger={tables()}

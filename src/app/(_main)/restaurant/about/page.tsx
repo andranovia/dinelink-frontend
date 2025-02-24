@@ -12,9 +12,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useRestaurant } from "@/hooks/services/useRestaurant";
 import React from "react";
 
-const page = () => {
+const Page = () => {
+  const { restaurantByCode } = useRestaurant({});
+
   return (
     <div className="p-3 grid grid-cols-5 gap-4">
       <Card className="col-span-5">
@@ -50,16 +53,23 @@ const page = () => {
           </CardTitle>
           <CardDescription>
             <p className="text-sm">
-              Jl. Pemuda No. 1, Kota Bandung, Jawa Barat
+              {restaurantByCode?.restaurant.address
+                ? restaurantByCode?.restaurant.address
+                : "No address available"}
             </p>
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <MapDefault className="h-[20rem]" />
+          {restaurantByCode?.restaurant.address ? (
+            <MapDefault
+              className="h-[20rem]"
+              position={restaurantByCode?.restaurant.address}
+            />
+          ) : null}
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default page;
+export default Page;

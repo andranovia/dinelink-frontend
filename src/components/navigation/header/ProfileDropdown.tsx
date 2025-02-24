@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useAuth from "@/hooks/services/useAuth";
 import Link from "next/link";
-import { ImProfile } from "react-icons/im";
+import { BiUser } from "react-icons/bi";
 
 export function ProfileDropdown() {
-  const { logoutAction, userData } = useAuth({});
+  const { userData } = useAuth({});
 
   return (
     <DropdownMenu modal={false}>
@@ -26,7 +26,7 @@ export function ProfileDropdown() {
           <Avatar className="h-8 w-8">
             <AvatarImage src="/avatars/01.png" alt="@shadcn" />
             <AvatarFallback>
-              <ImProfile />
+              <BiUser />
             </AvatarFallback>
           </Avatar>
         </Button>
@@ -50,15 +50,6 @@ export function ProfileDropdown() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            logoutAction();
-            console.log(localStorage.getItem("token"));
-          }}
-        >
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -1,3 +1,5 @@
+"use client";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuthStore from "@/store/authStore";
 import { apiRequest } from "../functions/apiRequest";
@@ -52,12 +54,14 @@ const useAuth = ({
         method: "post",
       }),
     onSuccess: (data) => {
-      login(data.user, data.token);
       queryClient.invalidateQueries({ queryKey: ["auth"] });
+      login(data.user, data.token, data.user.type);
       if (data.user.type === "owner") {
         window.location.href = `http://localhost:3001/verification?token=${data.token}`;
       } else if (data.user.type === "customer") {
         router.push("/restaurant");
+      } else if (data.user.type === "cashier") {
+        window.location.href = `http://localhost:3002/verification?token=${data.token}`;
       }
       showAlert(
         {

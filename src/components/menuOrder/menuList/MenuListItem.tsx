@@ -54,11 +54,17 @@ const MenuListItem = ({
     }
   };
 
+  const fullPath = productData?.image;
+  const fileName = fullPath ? fullPath.split(/[\\/]/).pop() : "";
+
   return (
     <Card className={cn("w-auto h-fit ", className)} {...props}>
       <CardHeader className="rounded-lg p-3 pb-0 relative">
         <Image
-          src={productData?.image || "https://via.placeholder.com/150"}
+          src={
+            "http://127.0.0.1:8000/storage/uploads/" + fileName ||
+            "https://via.placeholder.com/150"
+          }
           alt="bangoran"
           width={200}
           height={200}

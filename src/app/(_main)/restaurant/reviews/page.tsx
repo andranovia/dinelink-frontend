@@ -1,5 +1,5 @@
-import RestaurantReviews from "@/components/restaurant/reviews/RestaurantReviews";
-import RestaurantReviewsSummary from "@/components/restaurant/reviews/RestaurantReviewsSummary";
+import RestaurantReviews from "@/components/restaurant/reviews/restaurantReviews";
+import RestaurantReviewsSummary from "@/components/restaurant/reviews/restaurantReviewsSummary";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import React from "react";

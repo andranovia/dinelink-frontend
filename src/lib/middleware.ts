@@ -16,6 +16,8 @@ export default function ProtectedRoute({
   const { userData } = useAuth({});
   const isPublic = pathname === "/";
   const token = localStorage.getItem("token");
+  const restaurantToken = localStorage.getItem("restaurantToken");
+  const cashierToken = localStorage.getItem("cashierToken");
 
   useEffect(() => {
     if (!token && !isPublic) {
@@ -36,13 +38,24 @@ export default function ProtectedRoute({
       isAuthenticated &&
       (pathname === "/login" || pathname === "/register")
     ) {
-      if (userData?.type === "owner") {
+      if (userData?.type === "owner" && restaurantToken) {
         window.location.href = `http://localhost:3001/verification?token=${token}`;
-      } else if (token) {
-        router.push(`/menu-order`);
+      } else if (userData?.type === "user" && token) {
+        router.push(`/restaurant`);
+      } else if (userData?.type === "cashier" && cashierToken) {
+        window.location.href = `http://localhost:3002/verification?token=${token}`;
       }
     }
-  }, [isAuthenticated, router, pathname, isPublic, userData, token]);
+  }, [
+    isAuthenticated,
+    router,
+    pathname,
+    isPublic,
+    userData,
+    token,
+    restaurantToken,
+    cashierToken,
+  ]);
 
   return children;
 }

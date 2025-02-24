@@ -21,9 +21,7 @@ import { PiWarningCircle } from "react-icons/pi";
 
 const OrderSummary = ({ children }: { children: React.ReactNode }) => {
   const { cart, isCartLoading } = useCart({});
-  const { restaurantTableUser } = useRestaurant({
-    params: { restaurantId: 1 },
-  });
+  const { restaurantTableUser, restaurantByCode } = useRestaurant({});
 
   const SubTotal = cart?.cart
     .map((item) => item.product.price * item.quantity)
@@ -44,7 +42,7 @@ const OrderSummary = ({ children }: { children: React.ReactNode }) => {
       table_id: restaurantTableUser?.restaurant_table.map((table) => table.id),
       tax: Number(Tax),
       items: cart?.cart.map((item) => item) ?? [],
-      restaurant_id: 1,
+      restaurant_id: restaurantByCode?.restaurant.id || 0,
       subtotal: SubTotal ? SubTotal : 0,
       total: SubTotal ? SubTotal : 0 + Number(Tax),
       current_url: pathname,

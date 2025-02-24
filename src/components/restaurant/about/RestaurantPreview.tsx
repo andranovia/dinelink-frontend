@@ -1,8 +1,11 @@
+import { useRestaurant } from "@/hooks/services/useRestaurant";
 import Image from "next/image";
 import React from "react";
 import { MdOutlineEmail } from "react-icons/md";
 
 const RestaurantPreview = () => {
+  const { restaurantByCode } = useRestaurant({});
+
   return (
     <>
       <div className="rounded-lg col-span-3 border overflow-hidden grid grid-rows-5 h-[37rem]">
@@ -18,11 +21,13 @@ const RestaurantPreview = () => {
             <span className="bg-green-400 w-3 h-3 rounded-full"></span>
 
             <div className="flex gap-2 flex-col">
-              <h1 className=" text-4xl text-primary font-bold">Wingman Pub</h1>
+              <h1 className=" text-4xl text-primary font-bold">
+                {restaurantByCode?.restaurant.name}
+              </h1>
               <div className="flex px-2 items-center gap-2 text-gray-500">
                 <MdOutlineEmail />
                 <span className=" text-sm font-medium ">
-                  wingmanspub@gmail.com
+                  {restaurantByCode?.restaurant.email}
                 </span>
               </div>
             </div>

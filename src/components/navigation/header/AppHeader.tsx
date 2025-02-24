@@ -12,9 +12,12 @@ import RestaurantHeader from "./restaurant/RestaurantHeader";
 import { usePathname } from "next/navigation";
 import OrderHistoryHeader from "./orderHistory/OrderHistoryHeader";
 import ManageTableHeader from "./manageTable/ManageTableHeader";
+import { useRestaurant } from "@/hooks/services/useRestaurant";
 
 const AppHeader = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
+
+  const { restaurantByCode } = useRestaurant({});
 
   const getHeaderData = () => {
     switch (pathname) {
@@ -31,7 +34,10 @@ const AppHeader = ({ children }: { children: React.ReactNode }) => {
     <Header className="flex-col p-0 sm:gap-0 h-auto">
       <div className="flex items-center gap-3 sm:gap-4 w-full p-4">
         <SidebarTrigger variant="outline" className="scale-125 sm:scale-100" />
-        <TopNavigation RestaurantName="Sentolop Food's" Open={true} />
+        <TopNavigation
+          RestaurantName={restaurantByCode?.restaurant.name}
+          Open={restaurantByCode?.restaurant.open}
+        />
         <div className="ml-auto flex items-center space-x-4">
           <DateHeader />
           <Separator orientation="vertical" className="h-4" />

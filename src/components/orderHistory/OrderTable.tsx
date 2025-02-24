@@ -33,15 +33,14 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { columns, Employee } from "./Columns";
+import { columns } from "./Columns";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { DataTableFacetedFilter } from "../table-faceted-filter";
-import { getDropDownValues } from "@/lib/utils";
 import { DataTablePagination } from "../pagination-controls";
+import { TransactionType } from "@/types/transaction";
 
 interface OrderTableProps {
-  data: Employee[];
+  data: TransactionType[];
 }
 
 /**
@@ -107,24 +106,8 @@ export function OrderTable({ data }: OrderTableProps) {
             }
             className="max-w-sm"
           />
-          <div className="flex-col">
-            {table.getColumn("date") && (
-              <DataTableFacetedFilter
-                column={table.getColumn("date")}
-                title="Date"
-                options={getDropDownValues(data, "date")}
-              />
-            )}
-          </div>
-          <div>
-            {table.getColumn("status") && (
-              <DataTableFacetedFilter
-                column={table.getColumn("status")}
-                title="Status"
-                options={getDropDownValues(data, "status")}
-              />
-            )}
-          </div>
+          <div className="flex-col"></div>
+          <div></div>
 
           {isFiltered && (
             <Button

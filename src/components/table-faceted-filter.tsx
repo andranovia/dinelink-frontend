@@ -39,23 +39,6 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Button variant="outline" size="sm" className="h-8 border-dashed">
           <RiFilterLine className="w-4 h-4 mr-2" />
           {title}
-          {/* {selectedValues?.size > 0 && 
-              <div className="space-x-1 lg:flex">
-                {(
-                    options
-                      .filter((option) => selectedValues.has(option.value))
-                      .map((option) => (
-                        <Badge
-                          variant="secondary"
-                          key={option.value}
-                          className="px-1 font-normal rounded-sm"
-                        >
-                          {option.label}
-                        </Badge>
-                      ))
-                  )  }
-              </div>
-          } */}
         </Button>
       </PopoverTrigger>
       {selectedValues?.size > 0 && (

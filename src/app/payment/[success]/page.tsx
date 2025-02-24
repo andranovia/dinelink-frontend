@@ -23,7 +23,7 @@ const Page = ({ params }: { params: Promise<{ success: string }> }) => {
 
   useEffect(() => {
     if (checkoutDetails && orderId) {
-      updateStatus();
+      changeTransactionStatus();
     }
   }, [checkoutDetails, orderId, changeTransactionStatus]);
 

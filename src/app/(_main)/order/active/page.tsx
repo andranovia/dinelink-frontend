@@ -26,16 +26,12 @@ import useAuthStore from "@/store/authStore";
 import Link from "next/link";
 import useCheckout from "@/hooks/services/usePayment";
 import { usePathname } from "next/navigation";
+import { PiEmpty } from "react-icons/pi";
 
 const Page = () => {
   const { checkoutDetails } = useOrder({ params: { restaurant_id: 1 } });
   const { user } = useAuthStore();
-  const { restaurantTable } = useRestaurant({
-    params: { restaurantId: 1 },
-  });
-  const { restaurantTableUser } = useRestaurant({
-    params: { restaurantId: 1 },
-  });
+  const { restaurantTable, restaurantTableUser } = useRestaurant({});
   const pathname = usePathname();
   const items: CartItem[] = JSON.parse(checkoutDetails?.items || "[]");
 
@@ -62,31 +58,55 @@ const Page = () => {
 
   return (
     <div className="p-3 grid grid-cols-6 gap-3">
-      <div className="col-span-1 lg:col-span-4 flex flex-col">
-        <Card className=" shadow-none ">
-          <CardHeader className="flex justify-between flex-row items-center w-full">
-            <div className="flex flex-col gap-4">
-              <CardTitle className="flex flex-row items-center gap-4">
-                <span className="bg-yellow-400 w-2 h-2 rounded-full"></span>
-                <h2 className="text-2xl">
-                  Order ID: {checkoutDetails?.order_id}
-                </h2>
-              </CardTitle>
-              <CardDescription className="text-sm font-semibold">
-                {moment(checkoutDetails?.created_at).format("MMMM Do YYYY")}
-              </CardDescription>
+      {checkoutDetails ? (
+        <div className="col-span-1 lg:col-span-4 flex flex-col">
+          <Card className=" shadow-none ">
+            <CardHeader className="flex justify-between flex-row items-center w-full">
+              <div className="flex flex-col gap-4">
+                <CardTitle className="flex flex-row items-center gap-4">
+                  <span className="bg-yellow-400 w-2 h-2 rounded-full"></span>
+                  <h2 className="text-2xl">
+                    Order ID: {checkoutDetails?.order_id}
+                  </h2>
+                </CardTitle>
+                <CardDescription className="text-sm font-semibold">
+                  {moment(checkoutDetails?.created_at).format("MMMM Do YYYY")}
+                </CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-6">
+              <OrderActiveCardItems itemsData={checkoutDetails?.items} />
+              <CurrentTableOrder tableData={restaurantTable} user={user} />
+              <OrderSummary
+                checkoutDetails={checkoutDetails}
+                onFinishPayment={makeCheckout}
+              />
+            </CardContent>
+          </Card>
+        </div>
+      ) : (
+        <Card className="col-span-1 lg:col-span-4 flex flex-col">
+          <CardContent className="flex items-center justify-center col-span-4 h-full flex-col gap-6">
+            <div className="bg-slate-100 p-4 rounded-full">
+              <PiEmpty size={25} />
             </div>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-6">
-            <OrderActiveCardItems itemsData={checkoutDetails?.items} />
-            <CurrentTableOrder tableData={restaurantTable} user={user} />
-            <OrderSummary
-              checkoutDetails={checkoutDetails}
-              onFinishPayment={makeCheckout}
-            />
+            <span className="text-gray-500 text-sm">
+              Currently there is no active transactions.
+            </span>
+            <div className="flex justify-center items-center gap-3 flex-col">
+              <Link href="/menu-order" className="w-full">
+                <Button
+                  variant={"outline"}
+                  className="border-primary text-primary w-full"
+                >
+                  Make Order
+                </Button>
+              </Link>
+            </div>
           </CardContent>
         </Card>
-      </div>
+      )}
+
       <RestaurantDetails />
     </div>
   );
@@ -182,9 +202,6 @@ const OrderSummary = ({
           Manage your order or finish your transaction
         </p>
         <div className="flex justify-center items-center gap-2">
-          <Button variant={"outline"} className="border-primary text-primary">
-            Cancel Order
-          </Button>
           <Button variant={"default"} onClick={() => onFinishPayment()}>
             Finish Payment
           </Button>
@@ -255,7 +272,7 @@ const CurrentTableOrder = ({
                     </button>
                   </div>
                 </div>
-                <TransformComponent wrapperClass="bg-white">
+                <TransformComponent wrapperClass="bg-white !h-[24rem]">
                   <div
                     style={{ width: "740px", height: "100%" }}
                     className="grid grid-cols-4 gap-4 gap-y-20 "

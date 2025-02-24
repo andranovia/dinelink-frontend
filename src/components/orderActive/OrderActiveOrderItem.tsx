@@ -3,10 +3,16 @@ import Image from "next/image";
 import React from "react";
 
 const OrderActiveCardItem = ({ productData }: { productData?: CartItem }) => {
+  const fullPath = productData?.product.image;
+  const fileName = fullPath ? fullPath.split(/[\\/]/).pop() : "";
+
   return (
     <div className="flex gap-3">
       <Image
-        src={productData?.product.image || "/images/burger.jpg"}
+        src={
+          "http://127.0.0.1:8000/storage/uploads/" + fileName ||
+          "https://via.placeholder.com/150"
+        }
         alt="burger"
         width={80}
         height={80}

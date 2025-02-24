@@ -17,7 +17,7 @@ const Page = ({ params }: { params: Promise<{ success: string }> }) => {
     successId: React.use(params).success,
     changeStatus: {
       orderId: orderId,
-      status: "Finished",
+      status: "Pending Confirmation",
     },
   });
 

@@ -21,7 +21,9 @@ const getBadgeIcon = (status: string) => {
       return <FaCheck />;
     case "Incomplete":
       return <MdIncompleteCircle />;
-    case "Pending":
+    case "Pending Payment":
+      return <MdPending />;
+    case "Pending Confirmation":
       return <MdPending />;
     case "Failed":
       return <ImCross size={10} />;
@@ -158,7 +160,8 @@ export const columns: ColumnDef<TransactionType>[] = [
     cell: ({ row }) => {
       const colors = {
         Finished: "bg-green-200 text-green-700",
-        Pending: "bg-yellow-200 text-yellow-700",
+        "Pending Payment": "bg-yellow-200 text-yellow-700",
+        "Pending Confirmation": "bg-yellow-200 text-yellow-700",
         Incomplete: "bg-gray-200 text-gray-700",
         Failed: "bg-red-200 text-red-700",
       };
@@ -172,7 +175,12 @@ export const columns: ColumnDef<TransactionType>[] = [
         >
           <div className="w-full items-center  flex justify-between flex-row">
             {getBadgeIcon(row.original.status.toString())}
-            <span>{row.original.status}</span>
+            <span>
+              {row.original.status === "Pending Confirmation" ||
+              row.original.status === "Pending Payment"
+                ? "Pending"
+                : row.original.status}
+            </span>
           </div>
         </Badge>
       );

@@ -10,7 +10,7 @@ import { ProductType } from "@/types/restaurant";
 import { CgUnavailable } from "react-icons/cg";
 import Image from "next/image";
 import React from "react";
-import { BiPlus } from "react-icons/bi";
+import { BiPlus, BiPlusCircle } from "react-icons/bi";
 import { FormModal } from "@/components/modals/FormModal";
 import { useCart } from "@/hooks/services/useCart";
 import { CartItem } from "@/types/cart";
@@ -33,6 +33,7 @@ const MenuListItem = ({
   });
 
   const { addCartItem } = useCart({ addToCartPayload: addCartItemPayload });
+  const { cart } = useCart({});
 
   const getButtonLabel = (available: boolean) => {
     switch (available) {
@@ -104,8 +105,18 @@ const MenuListItem = ({
               className="w-full bg-primary"
               disabled={!productData?.available}
             >
-              {getButtonLabel(!productData?.available).icon}
-              {getButtonLabel(!productData?.available).label}
+              {cart?.cart?.find(
+                (item) => item.product_id === productData?.id
+              ) ? (
+                <>
+                  <BiPlus className="text-white" /> Add more
+                </>
+              ) : (
+                <>
+                  {getButtonLabel(!productData?.available).icon}
+                  {getButtonLabel(!productData?.available).label}
+                </>
+              )}
             </Button>
           }
           formData={{

@@ -20,7 +20,7 @@ import {
 import { BiFoodMenu, BiHistory } from "react-icons/bi";
 import { PiCoins } from "react-icons/pi";
 import { IoFastFoodOutline } from "react-icons/io5";
-import { MdOutlinePayment, MdOutlineTableRestaurant } from "react-icons/md";
+import { MdOutlineTableRestaurant } from "react-icons/md";
 import { usePathname } from "next/navigation";
 
 const mainItemsSidebar = [
@@ -110,7 +110,11 @@ const AppSidebarContent = () => {
                       <Link href={item.url}>
                         <CollapsibleTrigger
                           asChild
-                          className={` hover:bg-accent hover:text-primary rounded-lg text-primary  h-10 transition-colors ${
+                          className={`${
+                            pathname === item.url
+                              ? "bg-primary !text-white"
+                              : ""
+                          } hover:bg-accent hover:text-primary rounded-lg text-primary  h-10 transition-colors ${
                             item.title === "rewards" && "bg-primary text-white"
                           }`}
                         >
@@ -182,7 +186,10 @@ const AppSidebarContent = () => {
                                 key={index}
                                 className={` hover:bg-accent hover:text-primary text-primary rounded-md py-2 px-3 transition-colors ${
                                   item.title === "#" && "bg-primary text-white"
-                                } ${index === 0 ? `mt-2` : ``}`}
+                                } ${index === 0 ? `mt-2` : ``} ${
+                                  pathname === data.url &&
+                                  "bg-primary text-white"
+                                }`}
                               >
                                 <Link href={data.url}>{data.title}</Link>
                               </SidebarMenuSubItem>

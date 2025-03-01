@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Playfair_Display } from "next/font/google";
+import { Oswald } from "next/font/google";
 import React from "react";
-const playfairSans = Playfair_Display({
+const oswaldSans = Oswald({
   subsets: ["latin"],
 });
 
@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <footer className="bg-slate-50  py-12 p-20 overflow-hidden flex items-center flex-col gap-20 w-full">
       <div className="flex items-center flex-col gap-6  justify-center">
-        <h1 className={`${playfairSans.className} text-[5rem] uppercase`}>
+        <h1 className={`${oswaldSans.className} text-[5rem] uppercase`}>
           Connect with us
         </h1>
         <div className="flex items-center gap-4">

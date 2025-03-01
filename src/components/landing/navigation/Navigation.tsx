@@ -3,12 +3,12 @@
 import React from "react";
 import { BiMenu } from "react-icons/bi";
 import { motion } from "framer-motion";
-import { Playfair_Display } from "next/font/google";
+import { Oswald } from "next/font/google";
 import { defaultTransition } from "@/components/animation";
 import NavigationBackground from "./NavigationBackground";
 import Link from "next/link";
 
-const playfairSans = Playfair_Display({
+const oswaldSans = Oswald({
   subsets: ["latin"],
 });
 
@@ -26,7 +26,7 @@ const Navigation = () => {
           Revolutionize your restaurant experience with effortless management.
         </p>
         <span className="absolute ml-[20rem]">Manage & Grow</span>
-        <h1 className={` text-5xl ml-auto mr-auto ${playfairSans.className}`}>
+        <h1 className={` text-5xl ml-auto mr-auto ${oswaldSans.className}`}>
           DineLink
         </h1>
         <div
@@ -46,7 +46,9 @@ const Navigation = () => {
       </div>
       <motion.div
         onClick={() => setNavigationToggle(!navigationToggle)}
-        className="fixed bg-slate-50 w-screen h-screen bg-opacity-80  flex justify-center items-center flex-col z-30 top-0 right-0 "
+        className={`fixed bg-slate-50 w-screen h-screen bg-opacity-80  flex justify-center items-center flex-col z-30 top-0 right-0 ${
+          navigationToggle ? "pointer-events-auto" : "pointer-events-none"
+        }`}
         initial={false}
         animate={{
           opacity: navigationToggle ? 1 : 0,
@@ -54,7 +56,7 @@ const Navigation = () => {
         transition={{ ...defaultTransition, duration: 0.8 }}
       >
         <div
-          className={`${playfairSans.className} relative text-8xl font-medium text-primary flex flex-col gap-10 items-center px-5 pt-4`}
+          className={`${oswaldSans.className} relative text-8xl font-medium text-primary flex flex-col gap-10 items-center px-5 pt-4`}
         >
           <Link
             href="/register"

@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Playfair_Display } from "next/font/google";
+import { Oswald } from "next/font/google";
 import React from "react";
 
-const playfairSans = Playfair_Display({
+const oswaldSans = Oswald({
   subsets: ["latin"],
 });
 
 const Cta = () => {
   return (
     <div className="flex items-center flex-col gap-6 mt-16 justify-center">
-      <h1 className={`${playfairSans.className} text-[5rem] uppercase`}>
+      <h1 className={`${oswaldSans.className} text-[5rem] uppercase`}>
         Explore the Convenience.
       </h1>
       <p className="w-3/5 text-center">

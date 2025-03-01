@@ -1,17 +1,17 @@
 import { Separator } from "@radix-ui/react-separator";
 import { ArrowUpRight } from "lucide-react";
-import { Playfair_Display } from "next/font/google";
+import { Oswald } from "next/font/google";
 import Image from "next/image";
 import React from "react";
 
-const playfairSans = Playfair_Display({
+const oswaldSans = Oswald({
   subsets: ["latin"],
 });
 
 const AboutRestaurant = () => {
   return (
     <div className="flex items-center flex-col gap-16 mt-12 justify-center">
-      <h1 className={`${playfairSans.className} text-[6rem] uppercase`}>
+      <h1 className={`${oswaldSans.className} text-[6rem] uppercase`}>
         Manage your Restaurant.
       </h1>
 

@@ -1,9 +1,9 @@
 import { Separator } from "@/components/ui/separator";
-import { Playfair_Display } from "next/font/google";
+import { Oswald } from "next/font/google";
 import Image from "next/image";
 import React from "react";
 
-const playfairSans = Playfair_Display({
+const oswaldSans = Oswald({
   subsets: ["latin"],
 });
 
@@ -12,7 +12,7 @@ const AboutServing = () => {
     <div className="grid grid-cols-5">
       <div className="flex gap-2 col-span-3">
         <div className={` flex flex-col gap-6`}>
-          <h1 className={`${playfairSans.className} text-[6rem] uppercase`}>
+          <h1 className={`${oswaldSans.className} text-[6rem] uppercase`}>
             Work Smarter, Serve Better.
           </h1>
           <Separator

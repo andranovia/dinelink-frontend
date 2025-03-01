@@ -1,10 +1,12 @@
 import React from "react";
-import { Playfair_Display } from "next/font/google";
+import { Oswald } from "next/font/google";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import HeroText from "./HeroText";
 
-const playfairSans = Playfair_Display({
+const oswaldSans = Oswald({
   subsets: ["latin"],
 });
 
@@ -12,31 +14,35 @@ const Hero = () => {
   return (
     <div className="flex justify-center flex-col gap-[8rem] items-center mt-[8rem]">
       <div
-        className={`${playfairSans.className} text-[7.5rem] uppercase flex flex-col items-center gap-4`}
+        className={`${oswaldSans.className}  uppercase flex flex-col items-center gap-4`}
       >
-        <div className="flex items-center ">
-          <h1>Your</h1>
-          <Image
-            src="/images/foodPlate.png"
-            alt="plating of fried vegetables with shrimp"
-            width={200}
-            height={200}
-          />
-          <h1>Dining</h1>
-        </div>
-
-        <h1>activity, Simplified.</h1>
+        <HeroText />
       </div>
       <div className="grid grid-cols-4 w-full">
         <div className="col-span-1">
           <div className="w-[200px] rounded-full h-[200px] absolute bg-orange-400"></div>
-          <Image
-            src="/images/foodPlate2.png"
-            alt="plating of fried vegetables with shrimp"
-            width={200}
-            height={200}
-            className="z-10 relative ml-2"
-          />
+          <motion.div
+            initial={{
+              rotate: -80,
+              x: -150,
+            }}
+            animate={{
+              rotate: 0,
+              x: 0,
+            }}
+            transition={{
+              duration: 4,
+              ease: [0.33, 1, 0.68, 1],
+            }}
+          >
+            <Image
+              src="/images/foodPlate2.png"
+              alt="plating of fried vegetables with shrimp"
+              width={200}
+              height={200}
+              className="z-10 relative ml-2"
+            />
+          </motion.div>
         </div>
         <div className="flex flex-col gap-4 col-span-3">
           <div className="flex w-full justify-between items-center">
@@ -72,13 +78,28 @@ const Hero = () => {
             />
             <div className="pr-10 pt-4">
               <div className="w-[150px] rounded-full h-[150px] absolute bg-primary"></div>
-              <Image
-                src="/images/pork-steak.png"
-                alt="plating of fried vegetables with shrimp"
-                width={200}
-                height={200}
-                className="z-10 relative -ml-5"
-              />
+              <motion.div
+                initial={{
+                  rotate: -80,
+                  y: 150,
+                }}
+                animate={{
+                  rotate: 0,
+                  y: 0,
+                }}
+                transition={{
+                  duration: 4,
+                  ease: [0.33, 1, 0.68, 1],
+                }}
+              >
+                <Image
+                  src="/images/pork-steak.png"
+                  alt="plating of fried vegetables with shrimp"
+                  width={200}
+                  height={200}
+                  className="z-10 relative -ml-5"
+                />
+              </motion.div>
             </div>
           </div>
         </div>

@@ -34,7 +34,7 @@
     "cmdk": "1.0.0",
     "date-fns": "^4.1.0",
     "formik": "^2.4.6",
-    "framer-motion": "^12.4.2",
+    "framer-motion": "^12.4.7",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.471.0",
     "moment": "^2.30.1",

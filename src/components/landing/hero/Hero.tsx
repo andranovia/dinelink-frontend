@@ -10,6 +10,12 @@ const oswaldSans = Oswald({
   subsets: ["latin"],
 });
 
+const avatars = [
+  { id: 1, className: "", delay: 0 },
+  { id: 2, className: "-mt-4 -ml-2", delay: 0.2 },
+  { id: 3, className: "-ml-2", delay: 0.4 },
+];
+
 const Hero = () => {
   return (
     <div className="flex justify-center flex-col gap-[8rem] items-center mt-[8rem]">
@@ -49,18 +55,25 @@ const Hero = () => {
             <h4 className="font-semibold text-2xl">01</h4>
             <div className="flex flex-col items-center gap-4  pr-10">
               <div className="flex items-center">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <Avatar className="-mt-4 -ml-2">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <Avatar className="-ml-2">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+                {avatars.map((avatar) => (
+                  <motion.div
+                    key={avatar.id}
+                    initial={{ y: 0 }}
+                    animate={{ y: [-5, 0] }}
+                    transition={{
+                      duration: 0.6,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      delay: avatar.delay,
+                    }}
+                  >
+                    <Avatar className={avatar.className}>
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </motion.div>
+                ))}
               </div>
               <p className="font-semibold">10000+ restaurant trusted</p>
             </div>
@@ -69,8 +82,8 @@ const Hero = () => {
           <div className="flex justify-between ">
             <p className="w-[25rem] text-lg">
               Whether you&apos;re a customer, cashier, waiter, or business
-              owner, [Your Product Name] connects everyone for a smoother,
-              smarter dining journey.
+              owner, DineLink connects everyone for a smoother, smarter dining
+              journey.
             </p>
             <Separator
               orientation="vertical"

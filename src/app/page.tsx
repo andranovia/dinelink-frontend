@@ -6,6 +6,7 @@ import Cta from "@/components/landing/cta/Cta";
 import Footer from "@/components/landing/footer/Footer";
 import Hero from "@/components/landing/hero/Hero";
 import Navigation from "@/components/landing/navigation/Navigation";
+import RestaurantSlider from "@/components/landing/restaurant/RestaurantSlider";
 import React from "react";
 
 const Page = () => {
@@ -15,6 +16,7 @@ const Page = () => {
         <Navigation />
         <div className="flex flex-col gap-14">
           <Hero />
+          <RestaurantSlider />
           <AboutServing />
           <AboutRestaurant />
           <Cta />

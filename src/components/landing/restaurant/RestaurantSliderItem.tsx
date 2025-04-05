@@ -6,6 +6,9 @@ import { FaSmoking, FaStar } from "react-icons/fa";
 import useWindowSize from "@/hooks/ui/useWindowSize";
 import { Button } from "@/components/ui/button";
 import { BiRestaurant, BiWifi } from "react-icons/bi";
+import Link from "next/link";
+import useAuthStore from "@/store/authStore";
+import { is } from "date-fns/locale";
 
 interface RestaurantItem {
   id: number;
@@ -23,6 +26,7 @@ const RestaurantItem: React.FC<RestaurantItemCardProps> = ({ item }) => {
   const windowSize = useWindowSize();
   const wWidth = windowSize.width ?? 0;
   const roundedRating = Math.round(item.average_rating);
+  const { isAuthenticated } = useAuthStore();
 
   return (
     <div className="h-full">
@@ -120,12 +124,14 @@ const RestaurantItem: React.FC<RestaurantItemCardProps> = ({ item }) => {
               <BiRestaurant className="text-2xl" />
               <span className="font-medium text-sm">10 - 15 min serving</span>
             </Button>
-            <Button
-              className="w-full bg-primary text-white mt-2 col-span-5"
-              onClick={() => console.log("clicked")}
+            <Link
+              className="w-full col-span-5"
+              href={isAuthenticated ? `/restaurant` : `/login`}
             >
-              Link
-            </Button>
+              <Button className="w-full bg-primary text-white mt-2">
+                Link
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

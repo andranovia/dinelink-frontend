@@ -12,7 +12,7 @@ import React from "react";
 const Page = () => {
   return (
     <div className="w-full h-full flex flex-col gap-20 justify-center items-center scrollbar-thumb-sky-700 scrollbar-track-sky-300">
-      <div className="w-full h-full flex flex-col gap-20 justify-center items-center p-20">
+      <div className="w-full h-full flex flex-col gap-20 justify-center items-center p-20  overflow-hidden">
         <Navigation />
         <div className="flex flex-col gap-14">
           <Hero />

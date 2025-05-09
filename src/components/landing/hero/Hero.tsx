@@ -18,7 +18,7 @@ const avatars = [
 
 const Hero = () => {
   return (
-    <div className="flex justify-center flex-col gap-[8rem] items-center mt-[8rem]">
+    <div className="flex justify-center flex-col gap-[8rem] items-center mt-[6rem]  overflow-hidden">
       <div
         className={`${oswaldSans.className}  uppercase flex flex-col items-center gap-4`}
       >
